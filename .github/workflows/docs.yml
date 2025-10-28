@@ -10,7 +10,6 @@
         paths:
           - 'docs/**'
           - 'README.md'
-      workflow_dispatch:
     
     jobs:
       build:
