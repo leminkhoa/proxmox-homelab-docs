@@ -15,8 +15,8 @@
 - [Proxmox Setup](./initial_setup/proxmox_setup/index.md)
   - [Users and Roles](./initial_setup/proxmox_setup/users_and_roles.md)
   - [Local Storage](./initial_setup/proxmox_setup/local_storage.md)
-  <!-- - [Base VM Templates](./initial_setup/proxmox_setup/index.md)
-    - [Ubuntu Server Jammy](./initial_setup/proxmox_setup/base_vm_template_ubuntu_server.md) -->
+  - [Base VM Templates](./initial_setup/proxmox_setup/vm_templates.md)
+    - [Ubuntu Server Jammy](./initial_setup/proxmox_setup/base_vm_template_ubuntu_server.md)
 
 - [HashiCorp Vault](./initial_setup/vault/index.md)
   - [Vault Image Builder](./initial_setup/vault/vault_image.md)

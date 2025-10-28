@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>HashiCorp Vault - Homelab Setup Documentation</title>
+        <title>Base VM Templates - Homelab Setup Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -178,53 +178,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="hashicorp-vault-infrastructure"><a class="header" href="#hashicorp-vault-infrastructure">HashiCorp Vault Infrastructure</a></h1>
-<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>This section covers the complete HashiCorp Vault infrastructure setup on Proxmox, including image building, server deployment, and component configuration. Vault provides secure secret management for your homelab environment.</p>
-<h2 id="components"><a class="header" href="#components">Components</a></h2>
-<h3 id="vault-image-builder"><a class="header" href="#vault-image-builder"><strong>Vault Image Builder</strong></a></h3>
-<p>Creates a custom Vault server image using Packer with KMS encryption support.</p>
-<h3 id="vault-server"><a class="header" href="#vault-server"><strong>Vault Server</strong></a></h3>
-<p>Deploys the Vault server using Terraform with secure configuration.</p>
-<h3 id="vault-components"><a class="header" href="#vault-components"><strong>Vault Components</strong></a></h3>
-<p>Configures Vault with authentication methods, policies, and secrets engines.</p>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
-<ul>
-<li>Proxmox server running and accessible</li>
-<li>Packer installed for image building</li>
-<li>Terraform installed for infrastructure deployment</li>
-<li>AWS KMS key for Vault encryption</li>
-<li>Environment variables configured</li>
-</ul>
-<h2 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h2>
+                        <h1 id="guidelines"><a class="header" href="#guidelines">Guidelines</a></h1>
 <ol>
-<li><strong>Build Vault Image</strong> - Create custom Vault server template</li>
-<li><strong>Deploy Vault Server</strong> - Deploy Vault server to Proxmox</li>
-<li><strong>Configure Components</strong> - Set up authentication and secrets</li>
+<li>Choose your desired template from the list below</li>
+<li>Follow the template-specific documentation</li>
+<li>Build the template using Packer</li>
+<li>Deploy VMs from the created template</li>
 </ol>
-<h2 id="security-features"><a class="header" href="#security-features">Security Features</a></h2>
-<ul>
-<li><strong>KMS Encryption</strong>: AWS KMS integration for secure key management</li>
-<li><strong>TLS Communication</strong>: Encrypted communication with client certificates</li>
-<li><strong>Access Control</strong>: Role-based access control and policies</li>
-<li><strong>Secret Management</strong>: Secure storage and retrieval of sensitive data</li>
-</ul>
-<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
-<ul>
-<li><a href="vault_image.html">Vault Image Builder</a> - Create custom Vault server image</li>
-<li><a href="vault_server.html">Vault Server Deployment</a> - Deploy Vault server to Proxmox</li>
-<li><a href="vault_components.html">Vault Components Setup</a> - Configure Vault authentication and policies</li>
-</ul>
+<h1 id="vm-templates"><a class="header" href="#vm-templates">VM Templates</a></h1>
+<p>Pre-configured VM templates for rapid deployment with cloud-init integration.</p>
+<h3 id="ubuntu-server-2204-lts-jammy"><a class="header" href="#ubuntu-server-2204-lts-jammy"><a href="./base_vm_template_ubuntu_server.html">Ubuntu Server 22.04 LTS (Jammy)</a></a></h3>
+<p>Ubuntu Server template with cloud-init support for automated configuration.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../initial_setup/proxmox_setup/local_storage.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../initial_setup/vault/vault_image.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -234,11 +208,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../initial_setup/proxmox_setup/local_storage.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../initial_setup/vault/vault_image.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

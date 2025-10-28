@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>HashiCorp Vault - Homelab Setup Documentation</title>
+        <title>Ubuntu Server Jammy - Homelab Setup Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -178,53 +178,122 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="hashicorp-vault-infrastructure"><a class="header" href="#hashicorp-vault-infrastructure">HashiCorp Vault Infrastructure</a></h1>
+                        <h1 id="proxmox-base-vm-template---ubuntu-server-2204-lts-jammy"><a class="header" href="#proxmox-base-vm-template---ubuntu-server-2204-lts-jammy">Proxmox Base VM Template - Ubuntu Server 22.04 LTS (Jammy)</a></h1>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
-<p>This section covers the complete HashiCorp Vault infrastructure setup on Proxmox, including image building, server deployment, and component configuration. Vault provides secure secret management for your homelab environment.</p>
-<h2 id="components"><a class="header" href="#components">Components</a></h2>
-<h3 id="vault-image-builder"><a class="header" href="#vault-image-builder"><strong>Vault Image Builder</strong></a></h3>
-<p>Creates a custom Vault server image using Packer with KMS encryption support.</p>
-<h3 id="vault-server"><a class="header" href="#vault-server"><strong>Vault Server</strong></a></h3>
-<p>Deploys the Vault server using Terraform with secure configuration.</p>
-<h3 id="vault-components"><a class="header" href="#vault-components"><strong>Vault Components</strong></a></h3>
-<p>Configures Vault with authentication methods, policies, and secrets engines.</p>
+<p>This configuration creates a standardized Ubuntu Server 22.04 LTS (Jammy) VM template for Proxmox using Packer. The template is optimized for cloud-init integration and provides a consistent foundation for VM deployments across your Proxmox homelab environment.</p>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <ul>
-<li>Proxmox server running and accessible</li>
-<li>Packer installed for image building</li>
-<li>Terraform installed for infrastructure deployment</li>
-<li>AWS KMS key for Vault encryption</li>
-<li>Environment variables configured</li>
+<li>Proxmox server is running and accessible</li>
+<li>Packer is installed on your build machine</li>
+<li>Proxmox API token with appropriate permissions</li>
+<li>SSH key pair for authentication</li>
+<li>Sufficient disk space on Proxmox node (minimum 20GB)</li>
+<li>Network connectivity between build machine and Proxmox server</li>
 </ul>
-<h2 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h2>
-<ol>
-<li><strong>Build Vault Image</strong> - Create custom Vault server template</li>
-<li><strong>Deploy Vault Server</strong> - Deploy Vault server to Proxmox</li>
-<li><strong>Configure Components</strong> - Set up authentication and secrets</li>
-</ol>
-<h2 id="security-features"><a class="header" href="#security-features">Security Features</a></h2>
+<h2 id="vm-specifications"><a class="header" href="#vm-specifications">VM Specifications</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Component</th><th>Specification</th></tr></thead><tbody>
+<tr><td><strong>OS</strong></td><td>Ubuntu Server 22.04 LTS (Jammy)</td></tr>
+<tr><td><strong>CPU</strong></td><td>4 cores</td></tr>
+<tr><td><strong>Memory</strong></td><td>4 GB</td></tr>
+<tr><td><strong>Disk</strong></td><td>20 GB (virtio)</td></tr>
+<tr><td><strong>Network</strong></td><td>virtio (vmbr0)</td></tr>
+<tr><td><strong>Storage Pool</strong></td><td>local-lvm</td></tr>
+<tr><td><strong>VM ID</strong></td><td>1000 (configurable)</td></tr>
+</tbody></table>
+</div>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<h3 id="module-location"><a class="header" href="#module-location">Module Location</a></h3>
+<pre><code class="language-bash">resources/proxmox/01_base_vm_template/ubuntu_server_jammy
+</code></pre>
+<h3 id="files"><a class="header" href="#files">Files</a></h3>
+<p><code>build.pkr.hcl</code> - Build Definition
+The main build configuration that defines:</p>
 <ul>
-<li><strong>KMS Encryption</strong>: AWS KMS integration for secure key management</li>
-<li><strong>TLS Communication</strong>: Encrypted communication with client certificates</li>
-<li><strong>Access Control</strong>: Role-based access control and policies</li>
-<li><strong>Secret Management</strong>: Secure storage and retrieval of sensitive data</li>
+<li><strong>Build name</strong>: <code>ubuntu-server-jammy</code></li>
+<li><strong>Source reference</strong>: Links to the Proxmox source configuration</li>
+<li><strong>Provisioning steps</strong>: Shell commands for VM preparation</li>
+<li><strong>File provisioning</strong>: Cloud-init configuration files</li>
+<li><strong>Template optimization</strong>: Removes machine-specific data for templating</li>
 </ul>
-<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p><code>sources.pkr.hcl</code> - Source Configuration
+Defines the Proxmox VM source with:</p>
 <ul>
-<li><a href="vault_image.html">Vault Image Builder</a> - Create custom Vault server image</li>
-<li><a href="vault_server.html">Vault Server Deployment</a> - Deploy Vault server to Proxmox</li>
-<li><a href="vault_components.html">Vault Components Setup</a> - Configure Vault authentication and policies</li>
+<li><strong>Connection settings</strong>: Proxmox API URL, authentication</li>
+<li><strong>VM specifications</strong>: CPU, memory, disk, network settings</li>
+<li><strong>ISO configuration</strong>: Ubuntu Server 22.04 LTS installation</li>
+<li><strong>Cloud-init setup</strong>: Automated installation and configuration</li>
+<li><strong>Boot commands</strong>: Automated installation parameters</li>
 </ul>
+<p><code>variables.pkr.hcl</code> - Variable Definitions
+Contains configurable parameters:</p>
+<ul>
+<li><strong>Proxmox connection</strong>: Host IP, API tokens, SSH credentials</li>
+<li><strong>VM settings</strong>: Node name, VM ID, storage pools</li>
+<li><strong>Validation rules</strong>: Input validation for security and correctness</li>
+</ul>
+<h3 id="set-environment-variables"><a class="header" href="#set-environment-variables">Set Environment Variables</a></h3>
+<p>Configure the required environment variables for Packer:</p>
+<div class="table-wrapper"><table><thead><tr><th>Variable</th><th>Description</th><th>Type</th><th>Default</th><th>Required</th></tr></thead><tbody>
+<tr><td><code>proxmox_host_ip</code></td><td>Proxmox server URL</td><td><code>string</code></td><td><code>env("PROXMOX_HOST_IP")</code></td><td>Yes</td></tr>
+<tr><td><code>proxmox_api_token_id</code></td><td>API token ID</td><td><code>string</code></td><td><code>env("PROXMOX_API_TOKEN_ID")</code></td><td>Yes</td></tr>
+<tr><td><code>proxmox_api_token_secret</code></td><td>API token secret</td><td><code>string</code></td><td><code>env("PROXMOX_API_TOKEN_SECRET")</code></td><td>Yes</td></tr>
+<tr><td><code>ssh_username</code></td><td>SSH username for build</td><td><code>string</code></td><td><code>env("SSH_USERNAME")</code></td><td>Yes</td></tr>
+<tr><td><code>ssh_public_key</code></td><td>Public key used to authorize users to the VM</td><td><code>string</code></td><td><code>env("SSH_PUBLIC_KEY")</code></td><td>Yes</td></tr>
+<tr><td><code>vm_id</code></td><td>VM ID for the template (1000-1999)</td><td><code>number</code></td><td><code>env("VM_ID")</code></td><td>No</td></tr>
+</tbody></table>
+</div>
+<p>As those variables refer values from environment variables value, we can set it directly from command line. For example:</p>
+<pre><code class="language-bash"># Proxmox Connection
+export PROXMOX_HOST_IP="https://192.168.1.100"
+export PROXMOX_API_TOKEN_ID='terraform@pve!deployment-token'
+export PROXMOX_API_TOKEN_SECRET="your-token-secret"
+export SSH_USERNAME="your-ssh-user"
+export SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+export PKR_VAR_vm_id=1000
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The SSH public key path can vary depending on your key type and location:</p>
+<ul>
+<li><strong>RSA keys</strong>: <code>~/.ssh/id_rsa.pub</code></li>
+<li><strong>ED25519 keys</strong>: <code>~/.ssh/id_ed25519.pub</code> (recommended)</li>
+<li><strong>ECDSA keys</strong>: <code>~/.ssh/id_ecdsa.pub</code></li>
+<li><strong>Custom location</strong>: Use the full path to your public key file</li>
+</ul>
+</blockquote>
+<h3 id="customize-configuration-optional"><a class="header" href="#customize-configuration-optional">Customize Configuration (Optional)</a></h3>
+<p>Edit the following files as needed:</p>
+<p><strong><code>http/user-data.tpl</code></strong> - Cloud-init user configuration:</p>
+<ul>
+<li>Update user information</li>
+<li>Modify SSH keys</li>
+<li>Adjust timezone settings</li>
+<li>Add/remove packages</li>
+</ul>
+<p><strong><code>files/99-pve.cfg</code></strong> - Proxmox-specific cloud-init settings:</p>
+<ul>
+<li>Configure datasource for Proxmox integration</li>
+</ul>
+<h3 id="build-the-template"><a class="header" href="#build-the-template">Build the Template</a></h3>
+<p>Before building, validate your configuration to ensure everything is properly configured:</p>
+<pre><code class="language-bash">packer validate .
+</code></pre>
+<p>If validation passes, run Packer to build the VM template:</p>
+<pre><code class="language-bash">packer build .
+</code></pre>
+<p>To update image, you can run build with <code>-force</code> argument:</p>
+<pre><code class="language-bash">packer build -force .
+</code></pre>
+<p>For more information about using variables with Packer, see the <a href="https://developer.hashicorp.com/packer/docs/commands/build">Packer build command documentation</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../initial_setup/proxmox_setup/vm_templates.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../initial_setup/vault/vault_image.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../initial_setup/vault/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -234,11 +303,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../initial_setup/proxmox_setup/base_vm_template_ubuntu_server.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../initial_setup/proxmox_setup/vm_templates.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../initial_setup/vault/vault_image.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../initial_setup/vault/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
