@@ -8,9 +8,9 @@ Creates a custom HashiCorp Vault server image for Proxmox using Packer. The imag
 
 - Packer installed
 - Proxmox server accessible
-- [VM Templates](../vm_templates/index.md) setup completed
-- [Proxmox Administration](../proxmox_administration/index.md) setup completed
 - [Trusted CA Store](../controller/trusted_ca_store.md) configuration completed
+- [Proxmox User and Roles](../proxmox_setup/users_and_roles.md) setup completed
+- [VM Templates](../proxmox_setup/vm_templates.md) setup completed
 
 ## VM Specifications
 
