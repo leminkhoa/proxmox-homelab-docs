@@ -9,8 +9,9 @@ src = "src"
 git-repository-url = "https://github.com/leminkhoa/proxmox-homelab-docs"
 no-section-label = true
 smart-punctuation = true
-
+sidebar-header-nav = false
 
 [output.html.fold]
 enable = true
 level = 1
+
