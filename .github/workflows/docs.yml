@@ -31,6 +31,10 @@ jobs:
           curl -sSL $url | tar -xz --directory=./mdbook
           echo `pwd`/mdbook >> $GITHUB_PATH
 
+      - name: Print out mdbook version
+        run: |
+          echo "Current mdbook version: $(mdbook --version)"
+
       - name: Build mdbook
         run: |
           cd docs
