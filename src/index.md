@@ -37,21 +37,6 @@ This repository's documentation is built with [mdbook](https://rust-lang.github.
 
 To start your journey, navigate to [Getting Started](./getting_started.md) and follow the instructions.
 
-## Folder Structure
-
-```bash
-.
-├── docs/                               # Documentation
-├── images/                             # Screenshots and diagrams
-├── resources/
-│   ├── aws/                            # AWS infrastructure
-│   │   └── 00_proxmox_backend/         # S3 and KMS for Terraform and HashicorpVault backend
-│   └── proxmox/                        # Proxmox infrastructure
-│       ├── 00_proxmox_administration/  # Users, roles, storage
-│       ├── 01_base_vm_template/        # Packer templates
-│       └── 02_vault/                   # Vault deployment
-└── README.md
-```
 
 ## Acknowledgements
 
