@@ -7,7 +7,7 @@ This configuration sets up local storage for ISO images and container templates 
 - Proxmox server is running and accessible
 - Terraform provider for Proxmox is configured
 - Administrative access to Proxmox server
-- Users and roles configuration completed (see [Users](./users.md) and [Roles](./roles.md))
+- Users and roles configuration completed (see [Users & Roles](./users_and_roles.md))
 - Sufficient disk space for ISO images and templates
 - Network connectivity for downloading images
 
