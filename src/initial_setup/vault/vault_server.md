@@ -75,7 +75,7 @@ The following variables will be prompted during deployment:
 
 ## Post-Deployment
 
-3. **Download vault_init_output.txt**:
+**Download vault_init_output.txt**:
    - Copy the content from `vault_init_output.txt` to a secure location
    - This file contains the **root token** and **unseal keys**
    - The root token is used to authenticate as the root user in Vault
