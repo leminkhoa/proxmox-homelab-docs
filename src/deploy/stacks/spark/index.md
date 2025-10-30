@@ -9,11 +9,13 @@ Before starting, ensure you have:
 - Vault configured with necessary secrets
 - Terraform installed
 - Ansible installed
-- Access to the Proxmox API
+- Completed [Hashicorp Vault setup](../../../initial_setup/vault/index.md)
 
+## Set up environment variables
 
+> Note: If you haven't completed this setup [Setting Environment Variables](../../general_guidelines/set_environment.md), please follow the instructions from this page before proceeding to the next steps.
 
-## Step 2: Build Template (spark_base)
+## Build Template (spark_base)
 
 This step creates a base VM template with Spark pre-installed that will be used to deploy the cluster.
 
@@ -24,19 +26,8 @@ terraform plan
 terraform apply
 ```
 
-**What this does:**
-- Creates a base VM (`spark-base`) with ID 1001
-- Installs common dependencies and Java
-- Installs and configures Spark base components
-- Runs Ansible playbooks to set up the base environment
-- Converts the VM to a template for future deployments
 
-**Configuration:**
-- VM IP: `192.168.1.200` (transient IP)
-- Template ID: `1001`
-- Base role configuration for Spark
-
-## Step 3: Update config/vms.yml
+## Update config/vms.yml
 
 Configure your Spark cluster by updating the VM specifications in the configuration file.
 
@@ -80,11 +71,11 @@ spark_cluster:
 **Configuration options:**
 - **Masters**: Define Spark master nodes with their IPs and ports
 - **Workers**: Define Spark worker nodes with their IPs and ports
-- **Template ID**: Must reference the template created in Step 2 (1001)
+- **Template ID**: Must reference the ID of the template
 - **IP Addresses**: Ensure they don't conflict with existing VMs
 - **VM IDs**: Must be unique across your Proxmox environment
 
-## Step 4: Deploy with Terraform (spark/)
+## Deploy VM with Terraform (spark/)
 
 Deploy the actual Spark cluster using the configuration from Step 3.
 
@@ -113,11 +104,12 @@ terraform apply
 After deployment, verify your Spark cluster:
 
 1. **Check VM Status**: Ensure all VMs are running in Proxmox
-2. **Access Spark Master Web UI**: Navigate to `http://192.168.1.101:8080`
+2. **Access Spark Master Web UI**: Navigate to `http://<Spark master IP>:8080`
 3. **Check Worker Registration**: Verify workers appear in the master UI
 4. **Test Spark Shell**: SSH into master and run `spark-shell`
 
-```
+![Spark UI](./spark_ui.png)
+
 
 ## Cleanup
 

@@ -90,7 +90,7 @@ Templates are organized by stack type with the following structure:
 |-------|------|----------|-------------|------------------|
 | `name` | string | Yes | Unique name for the template VM | Must be unique across all templates |
 | `id` | integer | Yes | Proxmox VM ID | Must be in range 1000-1999 and unique |
-| `ip` | string | Yes | IP address for the template | Should use transient IP (192.168.1.200) |
+| `ip` | string | No | IP address for the template | If not defined, use a transient ip `192.168.1.2`|
 | `description` | string | No | Human-readable description of the template | No validation required |
 | `tags` | array | No | List of tags for categorization and filtering | Array of strings, no duplicates |
 | `vars` | object | No | Key-value pairs for template-specific variables | Key-value pairs for custom configuration |

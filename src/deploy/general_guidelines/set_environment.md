@@ -25,20 +25,25 @@ vault:
 
 ## Set Vault Token
 
-Export the Vault token that was generated during the Vault server deployment:
+Export the Vault token that was generated during the Vault server deployment. 
 
+The Vault token can be found in the `vault_init_output.txt` file created during the [Vault Server deployment](../../initial_setup/vault/vault_server.md). This file contains:
+- **Root Token**: Used for administrative access to Vault
+- **Unseal Keys**: Used to unseal the Vault server
+
+Run:
 ```bash
 export VAULT_TOKEN="hvs.your_actual_token_here"
 ```
 
-### Obtaining the Token
+**Note**: If you're using AWS SSM Parameter Store to store your Vault token, you can retrieve it using:
 
-The Vault token can be found in the `vault_init_output.txt` file created during the [Vault Server deployment](../../initial_setup/vault/vault_server.md). This file contains:
+```bash
+export VAULT_TOKEN=$(aws ssm get-parameter --name <parameter-path> --with-decryption --query "Parameter.Value" --output text)
+```
 
-- **Root Token**: Used for administrative access to Vault
-- **Unseal Keys**: Used to unseal the Vault server
+*Replace `<parameter-path>` with your actual SSM parameter path (e.g., `/vault/token`).*
 
-> **Security Warning**: Store the `vault_init_output.txt` file in a secure location as it provides full administrative access to your Vault instance.
 
 ## Run Environment Setup Script
 

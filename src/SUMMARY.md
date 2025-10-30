@@ -28,7 +28,7 @@
 - [General Guidelines](./deploy/general_guidelines/index.md)
   - [Infrastructure Configurations](./deploy/general_guidelines/build_config.md)
   - [Convention rules](./deploy/general_guidelines/convention_rules.md)
-  - [Setting environments](./deploy/general_guidelines/set_environment.md)
+  - [Setting environment variables](./deploy/general_guidelines/set_environment.md)
 
 - [Stacks](./deploy/stacks/index.md)
   - [Spark](./deploy/stacks/spark/index.md)

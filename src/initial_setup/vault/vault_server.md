@@ -81,10 +81,37 @@ The following variables will be prompted during deployment:
    - The root token is used to authenticate as the root user in Vault
    - Move and store this file into a more secured location as it provides full administrative access
 
+> Security recommendation: Store the root token and unseal keys in AWS SSM Parameter Store with KMS encryption instead of local files.
+>
+> Example commands:
+>
+> ```bash
+> # Store root token (SecureString) encrypted with default KMS key
+> aws ssm put-parameter \
+>   --name "/vault/root-token" \
+>   --type "SecureString" \
+>   --value "hvs.your_actual_token_here" \
+>   --overwrite
+>
+> # Store unseal keys (SecureString). You may store each key separately or as JSON.
+> aws ssm put-parameter \
+>   --name "/vault/unseal-keys" \
+>   --type "SecureString" \
+>   --value '{"keys":["key1","key2","key3"]}' \
+>   --overwrite
+>
+> # Retrieve (with decryption)
+> aws ssm get-parameter --name "/vault/root-token" --with-decryption --query "Parameter.Value" --output text
+> ```
+>
+> Use a dedicated KMS key and least-privilege IAM policies for access control.
+
 
 After deployment, we can access the Vault UI at `https://<ip>:8200`. Enter the root token for first time login!
 
-![Vault UI Login Screen](./images/vault_login.png)
+| ![Vault UI Login Screen](./images/vault_login.png) | 
+|:--:| 
+| _Enter your root token for first time sign-in._ |
 
 Once login successfully, we should see a dashboard as below. Congrats! We're now ready to use Hashicorp Vault for further steps!
 ![Vault UI Dashboard](./images/vault_dashboard.png)
