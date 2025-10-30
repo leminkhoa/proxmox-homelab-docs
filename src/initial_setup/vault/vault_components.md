@@ -100,4 +100,4 @@ Navigate to `Secrets / kv_secrets / proxmox` and create the following KV secrets
 > **Security Note**: Store all credentials securely and rotate them regularly. These secrets provide access to your Proxmox infrastructure and should be treated as highly sensitive.
 
 After setting, you should have similar UI like this:
-![kv_secrest](./images/kv.png)
+![kv_secrets](./images/kv.png)
