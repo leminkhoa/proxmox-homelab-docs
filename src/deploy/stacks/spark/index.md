@@ -21,7 +21,7 @@ This step creates a base VM template with Spark pre-installed that will be used 
 
 ```bash
 cd terraform/templates/spark_base
-terraform init
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
 terraform plan
 terraform apply
 ```
@@ -29,7 +29,7 @@ terraform apply
 
 ## Update config/vms.yml
 
-Configure your Spark cluster by updating the VM specifications in the configuration file.
+Configure your Spark cluster by updating the VM specifications in the configuration file. For example:
 
 ```yaml
 spark_cluster:
@@ -37,20 +37,21 @@ spark_cluster:
     masters:
       hosts:
         - name: "spark-master-1"
-          id: 2000
-          ip: "192.168.1.101"
+          id: 2002
+          ip: "192.168.1.20"
           tags: ["vm", "spark_master"]
           vars:
             role: "master"
             spark_master_port: "7077"
             spark_web_ui_port: "8080"
-      template_id: 1001
+      template_id: 1003
+      node: "pve2"
 
     workers:
       hosts:
         - name: "spark-worker-1"
-          id: 2001
-          ip: "192.168.1.102"
+          id: 2003
+          ip: "192.168.1.21"
           tags: ["vm", "spark_worker"]
           vars:
             role: "worker"
@@ -58,19 +59,21 @@ spark_cluster:
             spark_worker_web_ui_port: "8081"
 
         - name: "spark-worker-2"
-          id: 2002
-          ip: "192.168.1.103"
+          id: 2004
+          ip: "192.168.1.22"
           tags: ["vm", "spark_worker"]
           vars:
             role: "worker"
             spark_worker_port: "8081"
             spark_worker_web_ui_port: "8081"
-      template_id: 1001
+      template_id: 1003
+      node: "pve2"
 ```
 
 **Configuration options:**
 - **Masters**: Define Spark master nodes with their IPs and ports
 - **Workers**: Define Spark worker nodes with their IPs and ports
+- **Node**: Proxmox node name where the VM will be deployed (e.g., "pve", "pve2")
 - **Template ID**: Must reference the ID of the template
 - **IP Addresses**: Ensure they don't conflict with existing VMs
 - **VM IDs**: Must be unique across your Proxmox environment
@@ -81,7 +84,7 @@ Deploy the actual Spark cluster using the configuration from Step 3.
 
 ```bash
 cd terraform/deployments/spark
-terraform init
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
 terraform plan
 terraform apply
 ```

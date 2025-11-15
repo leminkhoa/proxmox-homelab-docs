@@ -32,6 +32,7 @@
 
 - [Stacks](./deploy/stacks/index.md)
   - [Spark](./deploy/stacks/spark/index.md)
+  - [Kubernetes](./deploy/stacks/k8s/index.md)
 
 # References
 - [Deployment modules](./references/deployment_modules.md)

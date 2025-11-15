@@ -77,13 +77,6 @@ Navigate to `Secrets / kv_secrets / proxmox` and create the following KV secrets
   - `username`: Default VM username (e.g., `ubuntu`, `root`)
   - `password`: Default VM password
 
-#### **Proxmox Host Configuration**
-- **Secret Name**: `host`
-- **Required Fields**:
-  - `endpoint`: Proxmox server URL (e.g., `https://192.168.1.100:8006`)
-  - `gateway_address`: Network gateway IP (e.g., `192.168.1.1`)
-  - `nodename`: Proxmox node name (e.g., `pve`)
-
 #### **Terraform PVE Credentials**
 - **Secret Name**: `terraform_pve_credential`
 - **Required Fields**:
