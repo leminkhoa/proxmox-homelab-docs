@@ -1,0 +1,2029 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Homelab Setup Documentation</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="A comprehensive guide for setting up a secure homelab infrastructure for Data Engineer">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-9dfbd86b.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-26ca9bf1.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-4cd9193c.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Homelab Setup Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/leminkhoa/proxmox-homelab-docs" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="proxmox-homelab-setup"><a class="header" href="#proxmox-homelab-setup">Proxmox Homelab Setup</a></h1>
+<p>This repository contains infrastructure-as-code for the automated deployment and configuration of a secure homelab environment on Proxmox, featuring HashiCorp Vault for secrets management and AWS integration for backend storage.</p>
+<h2 id="disclaimer"><a class="header" href="#disclaimer">Disclaimer</a></h2>
+<p>This project is in development status and subject to breaking changes.</p>
+<p>Please do not run any code on your machine without understanding the provisioning flow, in case of data loss. Some configurations may perform destructive actions that are irreversible!</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>This project provides a <strong>semi-automated</strong> approach to setting up a secure homelab infrastructure using modern DevOps practices:</p>
+<ol>
+<li><strong>Packer</strong> creates base Proxmox VM templates from cloud images and ISOs</li>
+<li><strong>Terraform</strong> provisions infrastructure components and manages Proxmox resources</li>
+<li><strong>HashiCorp Vault</strong> provides secure secrets management with AWS KMS encryption</li>
+<li><strong>AWS Integration</strong> for backend storage and encryption key management</li>
+</ol>
+<p>The setup focuses on security, automation, and best practices for homelab environments.</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li><input disabled="" type="checkbox" checked=""> Golden image creation with Packer for Ubuntu Server templates</li>
+<li><input disabled="" type="checkbox" checked=""> Declarative Proxmox infrastructure management with Terraform</li>
+<li><input disabled="" type="checkbox" checked=""> HashiCorp Vault deployment with AWS KMS encryption</li>
+<li><input disabled="" type="checkbox" checked=""> Secure secrets management and retrieval</li>
+<li><input disabled="" type="checkbox" checked=""> Proxmox user and role management</li>
+<li><input disabled="" type="checkbox" checked=""> Local storage configuration</li>
+<li><input disabled="" type="checkbox" checked=""> AWS S3 backend for Vault with KMS encryption</li>
+<li><input disabled="" type="checkbox" checked=""> Automated certificate management</li>
+<li><input disabled="" type="checkbox" checked=""> Infrastructure as Code best practices</li>
+</ul>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
+<p>This repository’s documentation is built with <a href="https://rust-lang.github.io/mdBook/">mdbook</a>, a Rust-based documentation engine for simplicity and speed.</p>
+<p>To start your journey, navigate to <a href="#getting-started-1">Getting Started</a> and follow the instructions.</p>
+<h2 id="acknowledgements"><a class="header" href="#acknowledgements">Acknowledgements</a></h2>
+<ul>
+<li><a href="https://github.com/kencx/homelab/blob/master/README.md">kencx/homelab</a> - Inspiration for HashiCorp stack architecture</li>
+<li><a href="https://github.com/ChristianLempa/homelab/tree/main/proxmox">ChristianLempa/homelab</a> - Proxmox automation patterns</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h1>
+<h2 id="hardware-requirements"><a class="header" href="#hardware-requirements">Hardware Requirements</a></h2>
+<p>This project can be run on any modern x86_64 system that meets the recommended system
+requirements of <a href="https://pve.proxmox.com/wiki/System_Requirements">Proxmox</a>. I
+recommend mini-SFF workstations such as those from <a href="https://www.servethehome.com/introducing-project-tinyminimicro-home-lab-revolution/">Project
+TinyMiniMicro</a>.
+Alternatively, you may choose to run the Proxmox cluster on your own PC for simple setup.</p>
+<h3 id="my-current-setup"><a class="header" href="#my-current-setup">My Current Setup</a></h3>
+<p><strong>Cluster Name:</strong> Homelab (2 nodes)</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Component</th><th>Node1 (pve)</th><th>Node2 (pve2)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Hardware</strong></td><td>PC Gaming MS-7B19</td><td>ASUSTeK COMPUTER INC - ELM_PN54</td></tr>
+<tr><td><strong>CPU</strong></td><td>Intel Core i5-8500</td><td>AMD Ryzen AI 7 350 w/ Radeon 860M</td></tr>
+<tr><td><strong>CPU Details</strong></td><td>6 cores @ 3.00GHz, 1 socket, x86_64</td><td>16 cores (8 cores, 2 threads/core), 1 socket, x86_64</td></tr>
+<tr><td><strong>RAM</strong></td><td>16GB DDR4 (2x 8GB modules)</td><td>96GB DDR5 (2x 48GB modules @ 5600 MT/s)</td></tr>
+<tr><td><strong>Storage</strong></td><td>1TB SSD</td><td>2TB SSD</td></tr>
+<tr><td><strong>Kernel Version</strong></td><td>Linux 6.14.11-4-pve (2025-10-10T08:04Z)</td><td>Linux 6.14.11-4-pve (2025-10-10T08:04Z)</td></tr>
+<tr><td><strong>Proxmox Version</strong></td><td>VE 9.0.11</td><td>VE 9.0.11</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Shared Network Infrastructure:</strong></p>
+<ul>
+<li><strong>Network Switch:</strong> TP-Link 5 Port Gigabit (Network bridge configuration)</li>
+<li><strong>WiFi Integration:</strong> TP-Link WiFi Adapter (Connected via bridge mode for wireless LAN)</li>
+</ul>
+<h2 id="proxmox-node"><a class="header" href="#proxmox-node">Proxmox Node</a></h2>
+<p>A Proxmox Virtual Environment (PVE) server is required to host the virtual machines and containers. For detailed installation instructions, see the <a href="#proxmox-node-installation-guide">Proxmox Installation Guide</a>.</p>
+<h2 id="controller-node-your-laptop"><a class="header" href="#controller-node-your-laptop">Controller Node (Your Laptop)</a></h2>
+<p>A workstation/laptop/PC or separate host system will be used to run the
+required provisioning tools. This system will need to have the following tools
+installed:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Tool</th><th>Purpose</th><th>Key Features</th><th>Installation Link</th><th>Additional Modules</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Packer</strong></td><td>VM Image Building</td><td>• Automated VM template creation<br>• Multi-platform support (VMware, VirtualBox, etc.)<br>• Infrastructure as Code for images<br>• Integration with cloud providers</td><td><a href="https://developer.hashicorp.com/packer/install">Install Packer</a></td><td></td></tr>
+<tr><td><strong>Terraform</strong></td><td>Infrastructure Provisioning</td><td>• Declarative infrastructure management<br>• State management and tracking<br>• Multi-cloud and on-premises support<br>• Plan and apply workflow<br>• Resource dependency management</td><td><a href="https://developer.hashicorp.com/terraform/install">Install Terraform</a></td><td>tfvenv</td></tr>
+<tr><td><strong>Ansible</strong></td><td>Configuration Management</td><td>• Agentless architecture (SSH-based)<br>• Idempotent operations<br>• Playbook and role-based automation<br>• YAML-based configuration<br>• Inventory management<br>• Multi-node orchestration</td><td><a href="https://docs.ansible.com/ansible/latest/installation_guide/index.html">Install Ansible</a></td><td></td></tr>
+<tr><td><strong>Mdbook</strong></td><td>Documentation Generation</td><td>• Static site generation from Markdown<br>• Built-in search functionality<br>• Responsive design<br>• Syntax highlighting<br>• Table of contents generation</td><td><a href="https://rust-lang.github.io/mdBook/guide/installation.html">Install Mdbook</a></td><td></td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>Note</strong>: This documentation was tested with Packer v1.14.x and Terraform v1.13.x. While newer versions should work, please verify compatibility if you encounter any issues.</p>
+</blockquote>
+<h2 id="cluster-requirements"><a class="header" href="#cluster-requirements">Cluster Requirements</a></h2>
+<ul>
+<li>An existing Proxmox server that is reachable by the controller node (your laptop)</li>
+<li>A self-signed certificate, private key for TLS encryption of Vault.</li>
+<li>(Optional) An offline, private root and intermediate CA.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="proxmox-node-installation-guide"><a class="header" href="#proxmox-node-installation-guide">Proxmox Node Installation Guide</a></h1>
+<p>This guide will walk you through installing Proxmox Virtual Environment (PVE) on your hardware to create a Proxmox node for your homelab setup.</p>
+<h2 id="prerequisites-1"><a class="header" href="#prerequisites-1">Prerequisites</a></h2>
+<p>Before starting the installation, ensure your hardware meets the <a href="https://pve.proxmox.com/wiki/System_Requirements">Proxmox system requirements</a>:</p>
+<ul>
+<li><strong>CPU</strong>: 64-bit x86 processor with hardware virtualization support (Intel VT-x or AMD-V)</li>
+<li><strong>RAM</strong>: Minimum 2GB, recommended 8GB or more</li>
+<li><strong>Storage</strong>: Minimum 32GB for installation, recommended SSD for better performance</li>
+<li><strong>Network</strong>: Ethernet connection for management interface</li>
+</ul>
+<h2 id="download-and-prepare-installation-media"><a class="header" href="#download-and-prepare-installation-media">Download and Prepare Installation Media</a></h2>
+<ol>
+<li>
+<p><strong>Download Proxmox VE ISO</strong></p>
+<ul>
+<li>Visit the <a href="https://www.proxmox.com/en/downloads/proxmox-virtual-environment">Proxmox download page</a></li>
+<li>Download the latest Proxmox VE ISO image</li>
+<li>The ISO file is approximately 1.1GB</li>
+</ul>
+</li>
+<li>
+<p><strong>Create Bootable USB Drive</strong></p>
+<ul>
+<li>Use tools like <a href="https://rufus.ie/">Rufus</a> (Windows), <a href="https://www.balena.io/etcher/">Balena Etcher</a> (cross-platform), or <code>dd</code> command (Linux/macOS)</li>
+<li>Write the ISO image to a USB flash drive (minimum 4GB capacity)</li>
+</ul>
+</li>
+</ol>
+<h2 id="installation-process"><a class="header" href="#installation-process">Installation Process</a></h2>
+<h3 id="step-1-boot-from-installation-media"><a class="header" href="#step-1-boot-from-installation-media">Step 1: Boot from Installation Media</a></h3>
+<ol>
+<li>Insert the bootable USB drive into your target hardware</li>
+<li>Power on the system and access the BIOS/UEFI settings</li>
+<li>Configure the boot order to prioritize USB devices</li>
+<li>Save settings and restart</li>
+<li>Select “Install Proxmox VE” from the boot menu</li>
+</ol>
+<h3 id="step-2-installation-wizard"><a class="header" href="#step-2-installation-wizard">Step 2: Installation Wizard</a></h3>
+<ol>
+<li><strong>Welcome Screen</strong>: Press <code>Enter</code> to start the installation</li>
+<li><strong>License Agreement</strong>: Accept the license terms</li>
+<li><strong>Target Hard Disk</strong>:
+<ul>
+<li>Select the disk where Proxmox will be installed</li>
+<li>⚠️ <strong>Warning</strong>: This will erase all existing data on the selected disk</li>
+</ul>
+</li>
+<li><strong>Location and Time Zone</strong>: Configure your geographic location and timezone</li>
+<li><strong>Administration Password</strong>: Set a strong password for the <code>root</code> user</li>
+<li><strong>Network Configuration</strong>:
+<ul>
+<li>Configure the management interface (usually the first Ethernet port)</li>
+<li>Set a static IP address or use DHCP</li>
+<li>Configure hostname (e.g., <code>pve-node-01</code>)</li>
+<li>Set DNS servers</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-3-complete-installation"><a class="header" href="#step-3-complete-installation">Step 3: Complete Installation</a></h3>
+<ol>
+<li>Review your configuration settings</li>
+<li>Click “Install” to begin the installation process</li>
+<li>Wait for the installation to complete (typically 10-15 minutes)</li>
+<li>Reboot the system when prompted</li>
+<li>Remove the installation media</li>
+</ol>
+<h2 id="post-installation-configuration"><a class="header" href="#post-installation-configuration">Post-Installation Configuration</a></h2>
+<h3 id="access-the-web-interface"><a class="header" href="#access-the-web-interface">Access the Web Interface</a></h3>
+<p>After installation, you can access the Proxmox web interface:</p>
+<ol>
+<li><strong>Open a web browser</strong> and navigate to: <code>https://your-proxmox-ip:8006</code></li>
+<li><strong>Accept the self-signed certificate</strong> warning (you can replace this with a proper certificate later)</li>
+<li><strong>Login</strong> with:
+<ul>
+<li><strong>Username</strong>: <code>root</code></li>
+<li><strong>Password</strong>: The password you set during installation</li>
+<li><strong>Realm</strong>: <code>pam</code> (default)</li>
+</ul>
+</li>
+</ol>
+<p><img src="proxmox_ui.png" alt="Proxmox Web Interface"></p>
+<h3 id="initial-system-configuration"><a class="header" href="#initial-system-configuration">Initial System Configuration</a></h3>
+<ol>
+<li>
+<p><strong>Update the System</strong>:</p>
+<pre><code class="language-bash">apt update &amp;&amp; apt upgrade -y
+</code></pre>
+</li>
+<li>
+<p><strong>Configure Storage</strong>:</p>
+<ul>
+<li>Navigate to <strong>Datacenter</strong> → <strong>Storage</strong></li>
+<li>Add additional storage pools if needed (local, NFS, iSCSI, etc.)</li>
+</ul>
+</li>
+<li>
+<p><strong>Network Configuration</strong>:</p>
+<ul>
+<li>Verify network settings in <strong>System</strong> → <strong>Network</strong></li>
+<li>Configure additional network interfaces if required</li>
+</ul>
+</li>
+<li>
+<p><strong>Subscription Management</strong>:</p>
+<ul>
+<li>For production use, consider purchasing a Proxmox subscription</li>
+<li>For homelab use, you can use the free community repository</li>
+</ul>
+</li>
+</ol>
+<h3 id="verify-installation"><a class="header" href="#verify-installation">Verify Installation</a></h3>
+<p>Check that your Proxmox node is properly configured:</p>
+<ol>
+<li><strong>System Information</strong>: Verify CPU, RAM, and storage are detected correctly</li>
+<li><strong>Network Connectivity</strong>: Ensure the management interface is accessible</li>
+<li><strong>Storage</strong>: Confirm local storage is available and properly configured</li>
+<li><strong>Updates</strong>: Check that the system can access Proxmox repositories</li>
+</ol>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>With your Proxmox node successfully installed, you can now:</p>
+<ol>
+<li><strong>Create Virtual Machines</strong>: Use the web interface to create your first VMs</li>
+<li><strong>Set up Containers</strong>: Deploy lightweight LXC containers</li>
+<li><strong>Configure Backup</strong>: Set up automated backups for your VMs and containers</li>
+<li><strong>Join a Cluster</strong>: Add additional nodes to create a high-availability cluster</li>
+<li><strong>Deploy Infrastructure</strong>: Use the Terraform configurations in this repository to automate your homelab setup</li>
+</ol>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<h3 id="common-issues"><a class="header" href="#common-issues">Common Issues</a></h3>
+<ul>
+<li><strong>Network not accessible</strong>: Check firewall settings and network configuration</li>
+<li><strong>Storage not detected</strong>: Verify disk connections and check for hardware issues</li>
+<li><strong>Web interface not loading</strong>: Ensure the <code>pveproxy</code> service is running</li>
+<li><strong>Certificate warnings</strong>: This is normal for self-signed certificates; you can replace them later</li>
+</ul>
+<h3 id="useful-commands"><a class="header" href="#useful-commands">Useful Commands</a></h3>
+<pre><code class="language-bash"># Check system status
+systemctl status pve-cluster
+
+# View system logs
+journalctl -u pve-cluster
+
+# Restart Proxmox services
+systemctl restart pve-cluster
+
+# Check storage
+pvesm status
+</code></pre>
+<h2 id="security-considerations"><a class="header" href="#security-considerations">Security Considerations</a></h2>
+<ul>
+<li><strong>Change default passwords</strong>: Use strong, unique passwords</li>
+<li><strong>Configure firewall</strong>: Restrict access to management interfaces</li>
+<li><strong>Regular updates</strong>: Keep the system updated with security patches</li>
+<li><strong>Backup configuration</strong>: Regularly backup your Proxmox configuration</li>
+<li><strong>Network isolation</strong>: Consider isolating management traffic from VM traffic</li>
+</ul>
+<p>For more detailed information, refer to the <a href="https://pve.proxmox.com/wiki/Main_Page">official Proxmox documentation</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h1>
+<p>This guide provides the complete deployment sequence for a secure homelab environment on Proxmox with HashiCorp Vault and AWS integration.</p>
+<h2 id="prerequisites-2"><a class="header" href="#prerequisites-2">Prerequisites</a></h2>
+<p>Ensure all <a href="#prerequisites">prerequisites</a> are met before proceeding.</p>
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Step</th><th>Component</th><th>Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Trusted CA Store Configuration</td><td>Certificate trust configuration</td></tr>
+<tr><td>2</td><td>AWS Backend</td><td>S3 storage and KMS encryption</td></tr>
+<tr><td>3</td><td>Proxmox Admin</td><td>Users, roles, and storage setup</td></tr>
+<tr><td>4</td><td>VM Templates</td><td>Base images for deployment</td></tr>
+<tr><td>5</td><td>Vault Server</td><td>Secrets management infrastructure</td></tr>
+</tbody>
+</table>
+</div>
+<p>Follow each step sequentially for a complete homelab deployment.</p>
+<h2 id="deployment-sequence"><a class="header" href="#deployment-sequence">Deployment Sequence</a></h2>
+<h3 id="1-trusted-ca-store-configuration"><a class="header" href="#1-trusted-ca-store-configuration">1. Trusted CA Store Configuration</a></h3>
+<p>Configure the controller node to trust Proxmox certificates for secure Terraform operations.</p>
+<p><strong>Guidelines:</strong> <a href="controller/trusted_ca_store.html">Trusted CA Store Configuration</a></p>
+<h3 id="2-aws-backend-infrastructure"><a class="header" href="#2-aws-backend-infrastructure">2. AWS Backend Infrastructure</a></h3>
+<p>Deploy AWS S3 and KMS infrastructure for secure state storage and encryption.</p>
+<p><strong>Guidelines:</strong> <a href="aws/index.html">AWS Configuration</a></p>
+<h3 id="3-proxmox-administration"><a class="header" href="#3-proxmox-administration">3. Proxmox Administration</a></h3>
+<p>Configure Proxmox users, roles, and storage for automation.</p>
+<p><strong>Guidelines:</strong> <a href="proxmox_setup/index.html">Proxmox Setup</a></p>
+<h3 id="4-vm-template-creation"><a class="header" href="#4-vm-template-creation">4. VM Template Creation</a></h3>
+<p>Build base VM templates using Packer for consistent deployments.</p>
+<p><strong>Guidelines:</strong> <a href="proxmox_setup/base_vm_template_ubuntu_server.html">Base VM Templates</a></p>
+<h3 id="5-vault-infrastructure"><a class="header" href="#5-vault-infrastructure">5. Vault Infrastructure</a></h3>
+<p>Deploy and configure HashiCorp Vault with AWS KMS encryption.</p>
+<p><strong>Guidelines:</strong> <a href="vault/index.html">HashiCorp Vault</a></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="trusted-ca-store-configuration"><a class="header" href="#trusted-ca-store-configuration">Trusted CA Store Configuration</a></h1>
+<p>This guide explains how to configure the controller node to trust Proxmox’s self-signed certificate, which is essential for secure Terraform operations.</p>
+<h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
+<p>Proxmox VE uses self-signed certificates by default, which causes TLS verification errors when Terraform attempts to connect to the Proxmox API. This configuration adds the Proxmox certificate to the system’s trusted CA store, enabling secure communication.</p>
+<h2 id="prerequisites-3"><a class="header" href="#prerequisites-3">Prerequisites</a></h2>
+<ul>
+<li>Controller node running Ubuntu Server</li>
+<li>Network access to your Proxmox server</li>
+<li><code>openssl</code> package installed (usually pre-installed on Ubuntu)</li>
+<li>Root or sudo privileges</li>
+</ul>
+<h2 id="configuration-steps"><a class="header" href="#configuration-steps">Configuration Steps</a></h2>
+<h3 id="step-1-set-proxmox-server-ip"><a class="header" href="#step-1-set-proxmox-server-ip">Step 1: Set Proxmox Server IP</a></h3>
+<p>First, export your Proxmox server IP address as an environment variable:</p>
+<pre><code class="language-bash">export PROXMOX_IP="&lt;PROXMOX_IP&gt;"
+</code></pre>
+<p><strong>Replace <code>&lt;PROXMOX_IP&gt;</code> with your actual Proxmox server IP address.</strong></p>
+<p>Example:</p>
+<pre><code class="language-bash">export PROXMOX_IP="192.168.1.100"
+</code></pre>
+<h3 id="step-2-download-the-proxmox-certificate"><a class="header" href="#step-2-download-the-proxmox-certificate">Step 2: Download the Proxmox Certificate</a></h3>
+<p>Download the Proxmox server’s certificate to your controller node:</p>
+<pre><code class="language-bash">echo | \
+  openssl s_client -connect ${PROXMOX_IP}:8006 -showcerts 2&gt;/dev/null | \
+  openssl x509 -outform PEM &gt; proxmox.crt
+</code></pre>
+<h3 id="step-3-add-certificate-to-system-ca-store"><a class="header" href="#step-3-add-certificate-to-system-ca-store">Step 3: Add Certificate to System CA Store</a></h3>
+<p>Copy the certificate to the system’s trusted CA certificates directory:</p>
+<pre><code class="language-bash">sudo cp proxmox.crt /usr/local/share/ca-certificates/proxmox.crt
+</code></pre>
+<h3 id="step-4-update-trusted-ca-certificates"><a class="header" href="#step-4-update-trusted-ca-certificates">Step 4: Update Trusted CA Certificates</a></h3>
+<p>Update the system’s trusted CA certificates:</p>
+<pre><code class="language-bash">sudo update-ca-certificates
+</code></pre>
+<p>You should see output similar to:</p>
+<pre><code>Updating certificates in /etc/ssl/certs...
+1 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+</code></pre>
+<h3 id="step-5-verify-certificate-installation"><a class="header" href="#step-5-verify-certificate-installation">Step 5: Verify Certificate Installation</a></h3>
+<p>Verify the certificate was successfully added:</p>
+<pre><code class="language-bash">ls -la /usr/local/share/ca-certificates/proxmox.crt
+</code></pre>
+<p>The file should exist and be readable.</p>
+<h3 id="step-6-clean-up"><a class="header" href="#step-6-clean-up">Step 6: Clean Up</a></h3>
+<p>Remove the temporary certificate file:</p>
+<pre><code class="language-bash">rm proxmox.crt
+
+</code></pre>
+<h2 id="verification"><a class="header" href="#verification">Verification</a></h2>
+<p>To verify that the certificate is properly trusted, you can test the connection:</p>
+<pre><code class="language-bash">curl -I https://${PROXMOX_IP}:8006/api2/json/version
+</code></pre>
+<p>This should return a successful HTTP response without certificate errors.</p>
+<h2 id="alternative-configuration-less-secure"><a class="header" href="#alternative-configuration-less-secure">Alternative Configuration (Less Secure)</a></h2>
+<p>If you prefer not to trust the certificate system-wide, you can configure Terraform to skip certificate verification by setting <code>insecure = true</code> in your Proxmox provider configuration:</p>
+<pre><code class="language-hcl">provider "proxmox" {
+  endpoint  = "your endpoint"
+  
+  username  = "your username"
+  password  = var.user_terraform_password
+  insecure  = true
+}
+
+</code></pre>
+<p><strong>⚠️ Security Warning</strong>: Using <code>insecure = true</code> bypasses certificate verification and makes your connection vulnerable to man-in-the-middle attacks. The trusted CA store method is recommended for production environments.</p>
+<h2 id="security-considerations-1"><a class="header" href="#security-considerations-1">Security Considerations</a></h2>
+<ul>
+<li>The certificate is added to the system-wide trusted CA store, affecting all applications on the controller node</li>
+<li>This is the recommended approach for production environments</li>
+<li>Consider certificate rotation if your Proxmox server’s certificate changes</li>
+<li>Monitor for any security updates related to certificate handling</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="aws-backend-configuration"><a class="header" href="#aws-backend-configuration">AWS Backend Configuration</a></h1>
+<h2 id="overview-2"><a class="header" href="#overview-2">Overview</a></h2>
+<p>This section covers the AWS backend configuration required for our Proxmox homelab infrastructure. The AWS backend provides secure, scalable storage and encryption services that are essential for managing our infrastructure state and sensitive data.</p>
+<h2 id="why-aws-backend-is-essential"><a class="header" href="#why-aws-backend-is-essential">Why AWS Backend is Essential</a></h2>
+<p>Before deploying our Proxmox homelab infrastructure, we need to establish a secure AWS backend for several critical reasons:</p>
+<h3 id="enhanced-security"><a class="header" href="#enhanced-security">Enhanced Security</a></h3>
+<ul>
+<li><strong>Encrypted State Storage</strong>: Terraform state files contain sensitive information including resource IDs, IP addresses, and configuration details. AWS S3 with server-side encryption ensures these secrets are protected at rest.</li>
+<li><strong>KMS Key Management</strong>: AWS KMS provides centralized key management with automatic rotation, audit logging, and fine-grained access controls for encrypting/decrypting sensitive data.</li>
+<li><strong>Access Control</strong>: IAM policies ensure only authorized users can access the backend resources, preventing unauthorized infrastructure modifications.</li>
+</ul>
+<h3 id="operational-benefits"><a class="header" href="#operational-benefits">Operational Benefits</a></h3>
+<ul>
+<li><strong>Remote State Management</strong>: Multiple team members can collaborate on infrastructure changes with consistent state locking.</li>
+<li><strong>Backup and Recovery</strong>: Automated backups and point-in-time recovery capabilities for both Terraform state and Vault data.</li>
+<li><strong>Cost Optimization</strong>: Pay-as-you-use model with lifecycle policies to automatically transition data to cheaper storage classes.</li>
+</ul>
+<h2 id="components"><a class="header" href="#components">Components</a></h2>
+<p>The AWS backend for this project is split into two modules:</p>
+<ul>
+<li><a href="#s3-backend-terraform-state-storage">S3 Backend</a>: Remote Terraform state storage</li>
+<li><a href="#kms-backend-encryption-key-management">KMS Backend</a>: Encryption key management (auto-unseal, storage encryption)</li>
+</ul>
+<p>Use the S3 module first to create the remote state bucket, then configure the KMS module to use that bucket via <code>backend.config</code>.</p>
+<h2 id="aws-authentication"><a class="header" href="#aws-authentication">AWS Authentication</a></h2>
+<p>Authenticate with AWS using one of the following methods:</p>
+<pre><code class="language-bash"># Environment variables (recommended)
+export AWS_ACCESS_KEY_ID="&lt;access-key-id&gt;"
+export AWS_SECRET_ACCESS_KEY="&lt;secret-access-key&gt;"
+export AWS_DEFAULT_REGION="us-east-1"
+</code></pre>
+<pre><code class="language-ini"># ~/.aws/credentials (credentials file)
+[default]
+aws_access_key_id = &lt;access-key-id&gt;
+aws_secret_access_key = &lt;secret-access-key&gt;
+region = us-east-1
+</code></pre>
+<pre><code class="language-bash"># AWS named profile (example)
+aws configure --profile proxmox-backend
+export AWS_PROFILE=proxmox-backend
+</code></pre>
+<p>Verify credentials:</p>
+<pre><code class="language-bash">aws sts get-caller-identity
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="s3-backend-terraform-state-storage"><a class="header" href="#s3-backend-terraform-state-storage">S3 Backend (Terraform State Storage)</a></h1>
+<p>This module provisions the S3 bucket used as the remote backend for Terraform state across the project.</p>
+<h2 id="prerequisites-4"><a class="header" href="#prerequisites-4">Prerequisites</a></h2>
+<ul>
+<li>An AWS account with permissions to create S3 buckets.</li>
+<li>AWS authentication configured (see “AWS Backend Configuration” page for methods and verification).</li>
+</ul>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<h3 id="module-location"><a class="header" href="#module-location">Module Location</a></h3>
+<p><code>resources/aws/00_tf_s3_backend</code></p>
+<h3 id="configure-variables"><a class="header" href="#configure-variables">Configure Variables</a></h3>
+<p>Copy and edit variables:</p>
+<pre><code class="language-bash">cd resources/aws/00_tf_s3_backend
+cp terraform.tfvars.example terraform.tfvars
+</code></pre>
+<p>Set the following in <code>terraform.tfvars</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><code>aws_region</code></td><td>string</td><td>AWS region for resources</td><td>“us-east-1”</td></tr>
+<tr><td><code>s3_bucket_name</code></td><td>string</td><td>Name of the S3 bucket for Terraform backend</td><td>“terraform-backend-proxmox”</td></tr>
+<tr><td><code>admin_users</code></td><td>list(string)</td><td>IAM principal ARNs with admin access to the S3 bucket</td><td>[“arn:aws:iam::<acct>:user/admin1”]</acct></td></tr>
+<tr><td><code>standard_users</code></td><td>list(string)</td><td>IAM principal ARNs with standard access to the S3 bucket</td><td>[“arn:aws:iam::<acct>:user/user1”]</acct></td></tr>
+</tbody>
+</table>
+</div>
+<p>The lists <code>admin_users</code> and <code>standard_users</code> must each contain at least one ARN.</p>
+<h2 id="deploy"><a class="header" href="#deploy">Deploy</a></h2>
+<pre><code class="language-bash">terraform init
+terraform plan
+terraform apply
+</code></pre>
+<h2 id="outputs"><a class="header" href="#outputs">Outputs</a></h2>
+<ul>
+<li><code>s3_bucket_name</code>: The name of the S3 bucket for Terraform backend</li>
+<li><code>s3_bucket_arn</code>: The ARN of the S3 bucket for Terraform backend</li>
+<li><code>s3_bucket_domain_name</code>: The bucket domain name for Terraform backend</li>
+</ul>
+<h2 id="use-this-bucket-as-remote-backend"><a class="header" href="#use-this-bucket-as-remote-backend">Use This Bucket as Remote Backend</a></h2>
+<p>Other modules (for example <code>resources/aws/01_kms</code>) read backend settings from a <code>backend.config</code> file. After the bucket is created, set its name in that file:</p>
+<pre><code class="language-hcl"># resources/aws/01_kms/backend.config
+bucket = "&lt;your-created-bucket-name&gt;"
+region = "&lt;your-region&gt;"
+</code></pre>
+<p>Then initialize the downstream module with:</p>
+<pre><code class="language-bash">terraform init -backend-config=backend.config
+</code></pre>
+<h2 id="cleanup"><a class="header" href="#cleanup">Cleanup</a></h2>
+<p>To remove the backend bucket, ensure it is empty first (Terraform state files are stored here). Then:</p>
+<pre><code class="language-bash">terraform destroy
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="kms-backend-encryption-key-management"><a class="header" href="#kms-backend-encryption-key-management">KMS Backend (Encryption Key Management)</a></h1>
+<p>This module provisions an AWS KMS key and alias for encrypting sensitive data, such as Vault storage and other AWS services.</p>
+<h2 id="prerequisites-5"><a class="header" href="#prerequisites-5">Prerequisites</a></h2>
+<ul>
+<li>S3 backend bucket created and available (see <a href="#s3-backend-terraform-state-storage">S3 Backend</a> page).</li>
+<li>AWS authentication configured (see “<a href="#aws-authentication">AWS Configuration</a>” page for methods and verification).</li>
+</ul>
+<h2 id="configuration-1"><a class="header" href="#configuration-1">Configuration</a></h2>
+<h3 id="module-location-1"><a class="header" href="#module-location-1">Module Location</a></h3>
+<p><code>resources/aws/01_kms</code></p>
+<h3 id="configure-backend"><a class="header" href="#configure-backend">Configure Backend</a></h3>
+<p>Copy the example backend config, then edit it:</p>
+<pre><code class="language-bash">cp backend.config.example backend.config
+</code></pre>
+<p>Update <code>backend.config</code> to point to your S3 state bucket:</p>
+<pre><code class="language-hcl">bucket = "&lt;your-created-bucket-name&gt;"
+region = "&lt;your-region&gt;"
+</code></pre>
+<p>Initialize with:</p>
+<pre><code class="language-bash">terraform init -backend-config=backend.config
+</code></pre>
+<h3 id="configure-variables-1"><a class="header" href="#configure-variables-1">Configure Variables</a></h3>
+<p>Copy and edit variables:</p>
+<pre><code class="language-bash">cp terraform.tfvars.example terraform.tfvars
+</code></pre>
+<p>Set the following in <code>terraform.tfvars</code>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Description</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><code>kms_alias_name</code></td><td>string</td><td>Alias name for the KMS key</td><td>“vault-backend”</td></tr>
+<tr><td><code>kms_key_description</code></td><td>string</td><td>Description for the KMS key</td><td>“KMS key for Vault backend encryption”</td></tr>
+<tr><td><code>kms_key_deletion_window</code></td><td>number</td><td>Deletion window in days (7-30)</td><td>30</td></tr>
+<tr><td><code>kms_key_rotation</code></td><td>bool</td><td>Enable automatic key rotation</td><td>true</td></tr>
+<tr><td><code>admin_users</code></td><td>list(string)</td><td>IAM ARNs with full KMS permissions</td><td>[“arn:aws:iam::<acct>:user/admin1”]</acct></td></tr>
+<tr><td><code>standard_users</code></td><td>list(string)</td><td>IAM ARNs with encrypt/decrypt permissions</td><td>[“arn:aws:iam::<acct>:user/user1”]</acct></td></tr>
+</tbody>
+</table>
+</div>
+<p>Validation rules enforce at least one admin and one standard user and that deletion window is between 7 and 30.</p>
+<h2 id="deploy-1"><a class="header" href="#deploy-1">Deploy</a></h2>
+<pre><code class="language-bash">terraform plan
+terraform apply
+</code></pre>
+<h2 id="outputs-1"><a class="header" href="#outputs-1">Outputs</a></h2>
+<ul>
+<li><code>kms_key_id</code>: The globally unique identifier for the KMS key</li>
+<li><code>kms_key_arn</code>: The Amazon Resource Name (ARN) of the KMS key</li>
+<li><code>kms_key_alias_name</code>: The display name of the KMS key alias</li>
+<li><code>kms_key_alias_arn</code>: The Amazon Resource Name (ARN) of the KMS key alias</li>
+<li><code>kms_key_rotation_enabled</code>: Whether automatic key rotation is enabled</li>
+<li><code>kms_key_deletion_window</code>: The deletion window in days</li>
+</ul>
+<h2 id="integration-examples"><a class="header" href="#integration-examples">Integration Examples</a></h2>
+<ul>
+<li>Use for S3 bucket default encryption.</li>
+<li>Use as the KMS key for Vault storage auto-unseal and Transit engine.</li>
+<li>Use with EBS, RDS, and other AWS services requiring KMS.</li>
+</ul>
+<h2 id="cleanup-1"><a class="header" href="#cleanup-1">Cleanup</a></h2>
+<pre><code class="language-bash">terraform destroy
+</code></pre>
+<p>Note: KMS keys observe the configured deletion window and are not deleted immediately.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="proxmox-setup"><a class="header" href="#proxmox-setup">Proxmox Setup</a></h1>
+<p>This section covers the essential Proxmox configuration and VM template setup for your homelab infrastructure.</p>
+<h2 id="users-and-roles"><a class="header" href="#users-and-roles"><a href="#proxmox-users-and-roles-configuration">Users and Roles</a></a></h2>
+<p>Create dedicated automation users and custom roles for Terraform and Packer operations with appropriate permissions.</p>
+<h2 id="local-storage"><a class="header" href="#local-storage"><a href="#proxmox-local-storage-configuration">Local Storage</a></a></h2>
+<p>Configure local storage for ISO images and container templates with automated downloads.</p>
+<h2 id="base-vm-templates"><a class="header" href="#base-vm-templates"><a href="#guidelines">Base VM Templates</a></a></h2>
+<p>Pre-configured VM templates for rapid deployment with cloud-init integration.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="proxmox-users-and-roles-configuration"><a class="header" href="#proxmox-users-and-roles-configuration">Proxmox Users and Roles Configuration</a></h1>
+<p>This configuration creates dedicated automation users and custom roles for Terraform and Packer operations on your Proxmox server. These components are essential for infrastructure automation and must be configured with appropriate permissions.</p>
+<h2 id="prerequisites-6"><a class="header" href="#prerequisites-6">Prerequisites</a></h2>
+<ul>
+<li>Proxmox server is running and accessible</li>
+<li>Terraform provider for Proxmox is configured</li>
+<li>Administrative access to Proxmox server</li>
+<li>Network connectivity between controller node and Proxmox server</li>
+</ul>
+<h2 id="configuration-2"><a class="header" href="#configuration-2">Configuration</a></h2>
+<h3 id="module-location-2"><a class="header" href="#module-location-2">Module Location</a></h3>
+<p><code>resources/proxmox/00_proxmox_administration/00_users_and_roles</code></p>
+<h3 id="configure-backend-1"><a class="header" href="#configure-backend-1">Configure Backend</a></h3>
+<p>Copy the example backend config, then edit it to point to your S3 state bucket:</p>
+<pre><code class="language-bash">cp backend.config.example backend.config
+</code></pre>
+<pre><code class="language-hcl">bucket = "your-actual-s3-bucket-name"
+region = "us-east-1"
+</code></pre>
+<h2 id="deploy-2"><a class="header" href="#deploy-2">Deploy</a></h2>
+<pre><code class="language-bash">terraform init -backend-config=backend.config
+terraform plan
+terraform apply
+</code></pre>
+<h3 id="configure-variables-2"><a class="header" href="#configure-variables-2">Configure Variables</a></h3>
+<p>The following variables will be prompted during deployment:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Type</th><th>Description</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>proxmox_endpoint</code></td><td>string</td><td>The URL of the Proxmox endpoint (Format: https://proxmox-host-ip:8006)</td><td></td><td>Yes</td></tr>
+<tr><td><code>s3_bucket</code></td><td>string</td><td>Name of the S3 bucket used as Terraform backend</td><td>-</td><td>Yes</td></tr>
+<tr><td><code>virtual_environment_username</code></td><td>string</td><td>Username (with realm) for Proxmox authentication</td><td>-</td><td>Yes</td></tr>
+<tr><td><code>virtual_environment_password</code></td><td>string</td><td>Password for Proxmox authentication</td><td>-</td><td>Yes</td></tr>
+<tr><td><code>user_initial_password</code></td><td>string</td><td>Initial password for created users</td><td>-</td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="created-users"><a class="header" href="#created-users">Created Users</a></h2>
+<h3 id="terraform-pve-user-terraformpve"><a class="header" href="#terraform-pve-user-terraformpve">Terraform PVE User (<code>terraform@pve</code>)</a></h3>
+<p><strong>Purpose</strong>: Primary automation user for Terraform operations</p>
+<p><strong>Permissions</strong>:</p>
+<ul>
+<li><strong>VM Management</strong>: Full administrative access to <code>/vms</code> path with <code>PVEVMAdmin</code> role</li>
+<li><strong>Storage Management</strong>: Administrative access to <code>/storage</code> path with <code>PVEDatastoreAdmin</code> role</li>
+<li><strong>SDN Management</strong>: Administrative access to <code>/sdn</code> path with <code>PVESDNAdmin</code> role</li>
+<li><strong>System Audit</strong>: System modification and audit permissions with <code>SysModifyAudit</code> role</li>
+</ul>
+<p><strong>Groups</strong>: Standard</p>
+<h2 id="created-roles"><a class="header" href="#created-roles">Created Roles</a></h2>
+<h3 id="sysmodifyaudit-role"><a class="header" href="#sysmodifyaudit-role">SysModifyAudit Role</a></h3>
+<p><strong>Role ID</strong>: <code>SysModifyAudit</code></p>
+<p><strong>Purpose</strong>: Provides system modification and audit capabilities for automation users</p>
+<p><strong>Privileges</strong>:</p>
+<ul>
+<li><strong>Sys.Audit</strong>: System audit permissions for monitoring and logging</li>
+<li><strong>Sys.Modify</strong>: System modification permissions for infrastructure changes</li>
+</ul>
+<p><strong>Usage</strong>: This role is assigned to the <code>terraform@pve</code> user to provide necessary permissions for:</p>
+<ul>
+<li>System configuration changes</li>
+<li>Audit trail maintenance</li>
+<li>Infrastructure monitoring</li>
+<li>Automated system modifications</li>
+</ul>
+<h2 id="post-deployment"><a class="header" href="#post-deployment">Post-deployment</a></h2>
+<h3 id="generate-api-token"><a class="header" href="#generate-api-token">Generate API Token</a></h3>
+<p>After the users and roles are created, you need to generate API tokens for the automation users to use with Terraform and Packer.</p>
+<h4 id="for-terraform-user-terraformpve"><a class="header" href="#for-terraform-user-terraformpve">For Terraform User (<code>terraform@pve</code>)</a></h4>
+<ol>
+<li>
+<p><strong>Access Proxmox Web Interface</strong></p>
+<ul>
+<li>Navigate to your Proxmox server web interface (typically <code>https://your-proxmox-ip:8006</code>)</li>
+<li>Log in with your administrative credentials</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigate to User Management</strong></p>
+<ul>
+<li>Go to <strong>Datacenter</strong> → <strong>Permissions</strong> → <strong>API Tokens</strong></li>
+<li>Click on <code>Add</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Token Configuration</strong></p>
+<ul>
+<li>Configure the token:
+<ul>
+<li><strong>User</strong>: Choose <code>terraform@pve</code></li>
+<li><strong>Token ID</strong>: <code>deployment-token</code> (or your preferred name)</li>
+<li><strong>Privilege Separation</strong>: Leave unchecked (token inherits user permissions)</li>
+<li><strong>Expiration</strong>: Set according to your security policy (optional)</li>
+<li><strong>Comment</strong>: Input your comment here (optional)</li>
+</ul>
+</li>
+<li>Click <strong>“Generate”</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Save Token Credentials</strong></p>
+<ul>
+<li><strong>Important</strong>: Copy and securely store the generated token</li>
+<li>The token will be displayed as: <code>terraform@pve!terraform-token=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code></li>
+<li>This token will be used in your Terraform provider configuration</li>
+</ul>
+</li>
+</ol>
+<p><img src="initial_setup/proxmox_setup/api_token.png" alt="Proxmox API Token Example"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="proxmox-local-storage-configuration"><a class="header" href="#proxmox-local-storage-configuration">Proxmox Local Storage Configuration</a></h1>
+<p>This configuration sets up local storage for ISO images and container templates on your Proxmox server. It includes automated downloads of Ubuntu server images and Debian container templates, providing the foundation for VM and container creation.</p>
+<h2 id="prerequisites-7"><a class="header" href="#prerequisites-7">Prerequisites</a></h2>
+<ul>
+<li>Proxmox server is running and accessible</li>
+<li>Terraform provider for Proxmox is configured</li>
+<li>Administrative access to Proxmox server</li>
+<li>Users and roles configuration completed (see <a href="#proxmox-users-and-roles-configuration">Users &amp; Roles</a>)</li>
+<li>Sufficient disk space for ISO images and templates</li>
+<li>Network connectivity for downloading images</li>
+</ul>
+<blockquote>
+<p><strong>Important</strong>: Ensure you have completed the Users and Roles configuration before proceeding with local storage setup. The terraform user created in the previous steps will be used for automated operations.</p>
+</blockquote>
+<h2 id="configuration-3"><a class="header" href="#configuration-3">Configuration</a></h2>
+<h3 id="module-location-3"><a class="header" href="#module-location-3">Module Location</a></h3>
+<p><code>resources/proxmox/00_proxmox_administration/01_local_storage</code></p>
+<h3 id="configure-backend-2"><a class="header" href="#configure-backend-2">Configure Backend</a></h3>
+<p>Copy the backend configuration example and update the values:</p>
+<pre><code class="language-bash">cp backend.config.example backend.config
+</code></pre>
+<p>Edit <code>backend.config</code> and update the S3 bucket name:</p>
+<pre><code class="language-hcl">bucket = "your-actual-s3-bucket-name"
+region = "us-east-1"
+</code></pre>
+<h3 id="configure-variables-3"><a class="header" href="#configure-variables-3">Configure Variables</a></h3>
+<p>The following variables will be prompted during deployment:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Type</th><th>Description</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>proxmox_endpoint</code></td><td>string</td><td>The URL of the Proxmox endpoint</td><td><code>"https://192.168.1.100:8006"</code></td><td>No</td></tr>
+<tr><td><code>user_terraform_password</code></td><td>string</td><td>Password for terraform user authentication</td><td>-</td><td>Yes</td></tr>
+<tr><td><code>node_name</code></td><td>string</td><td>Node name to deploy resources</td><td><code>"pve"</code></td><td>No</td></tr>
+<tr><td><code>data_store_id</code></td><td>string</td><td>Data store ID for storage</td><td><code>"local"</code></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="deploy-3"><a class="header" href="#deploy-3">Deploy</a></h2>
+<pre><code class="language-bash">terraform init -backend-config="./backend.config"
+terraform plan
+terraform apply
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: From this step, use the <code>terraform@pve</code> user for automation instead of the standard user. This user has the necessary permissions for automated operations and follows security best practices.</p>
+</blockquote>
+<h2 id="storage-configuration"><a class="header" href="#storage-configuration">Storage Configuration</a></h2>
+<h3 id="local-storage-setup"><a class="header" href="#local-storage-setup">Local Storage Setup</a></h3>
+<p><strong>Storage ID</strong>: <code>local</code> (default)
+<strong>Node</strong>: <code>pve</code> (default)
+<strong>Type</strong>: Local storage for ISOs and templates</p>
+<h3 id="storage-requirements"><a class="header" href="#storage-requirements">Storage Requirements</a></h3>
+<p><strong>Minimum Space Requirements</strong>:</p>
+<ul>
+<li>Ubuntu ISO: ~1.5 GB</li>
+<li>Debian Template: ~200 MB</li>
+<li><strong>Total</strong>: ~2 GB minimum</li>
+</ul>
+<p><strong>Recommended Space</strong>:</p>
+<ul>
+<li><strong>Minimum</strong>: 5 GB for current downloads</li>
+<li><strong>Recommended</strong>: 10 GB for future templates and ISOs</li>
+<li><strong>Production</strong>: 20+ GB for multiple OS versions</li>
+</ul>
+<blockquote>
+<p><strong>Tip</strong>: Consider using a dedicated storage pool for templates and ISOs to avoid filling up your main storage. This also makes it easier to manage and backup your template library.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="guidelines"><a class="header" href="#guidelines">Guidelines</a></h1>
+<ol>
+<li>Choose your desired template from the list below</li>
+<li>Follow the template-specific documentation</li>
+<li>Build the template using Packer</li>
+<li>Deploy VMs from the created template</li>
+</ol>
+<h1 id="vm-templates"><a class="header" href="#vm-templates">VM Templates</a></h1>
+<p>Pre-configured VM templates for rapid deployment with cloud-init integration.</p>
+<h3 id="ubuntu-server-2204-lts-jammy"><a class="header" href="#ubuntu-server-2204-lts-jammy"><a href="#proxmox-base-vm-template---ubuntu-server-2204-lts-jammy">Ubuntu Server 22.04 LTS (Jammy)</a></a></h3>
+<p>Ubuntu Server template with cloud-init support for automated configuration.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="proxmox-base-vm-template---ubuntu-server-2204-lts-jammy"><a class="header" href="#proxmox-base-vm-template---ubuntu-server-2204-lts-jammy">Proxmox Base VM Template - Ubuntu Server 22.04 LTS (Jammy)</a></h1>
+<h2 id="overview-3"><a class="header" href="#overview-3">Overview</a></h2>
+<p>This configuration creates a standardized Ubuntu Server 22.04 LTS (Jammy) VM template for Proxmox using Packer. The template is optimized for cloud-init integration and provides a consistent foundation for VM deployments across your Proxmox homelab environment.</p>
+<h2 id="prerequisites-8"><a class="header" href="#prerequisites-8">Prerequisites</a></h2>
+<ul>
+<li>Proxmox server is running and accessible</li>
+<li>Packer is installed on your build machine</li>
+<li>Proxmox API token with appropriate permissions</li>
+<li>SSH key pair for authentication</li>
+<li>Sufficient disk space on Proxmox node (minimum 20GB)</li>
+<li>Network connectivity between build machine and Proxmox server</li>
+</ul>
+<h2 id="vm-specifications"><a class="header" href="#vm-specifications">VM Specifications</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Component</th><th>Specification</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>OS</strong></td><td>Ubuntu Server 22.04 LTS (Jammy)</td></tr>
+<tr><td><strong>CPU</strong></td><td>4 cores</td></tr>
+<tr><td><strong>Memory</strong></td><td>4 GB</td></tr>
+<tr><td><strong>Disk</strong></td><td>20 GB (virtio)</td></tr>
+<tr><td><strong>Network</strong></td><td>virtio (vmbr0)</td></tr>
+<tr><td><strong>Storage Pool</strong></td><td>local-lvm</td></tr>
+<tr><td><strong>VM ID</strong></td><td>1000 (configurable)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="configuration-4"><a class="header" href="#configuration-4">Configuration</a></h2>
+<h3 id="module-location-4"><a class="header" href="#module-location-4">Module Location</a></h3>
+<pre><code class="language-bash">resources/proxmox/01_base_vm_template/ubuntu_server_jammy
+</code></pre>
+<h3 id="files"><a class="header" href="#files">Files</a></h3>
+<p><code>build.pkr.hcl</code> - Build Definition
+The main build configuration that defines:</p>
+<ul>
+<li><strong>Build name</strong>: <code>ubuntu-server-jammy</code></li>
+<li><strong>Source reference</strong>: Links to the Proxmox source configuration</li>
+<li><strong>Provisioning steps</strong>: Shell commands for VM preparation</li>
+<li><strong>File provisioning</strong>: Cloud-init configuration files</li>
+<li><strong>Template optimization</strong>: Removes machine-specific data for templating</li>
+</ul>
+<p><code>sources.pkr.hcl</code> - Source Configuration
+Defines the Proxmox VM source with:</p>
+<ul>
+<li><strong>Connection settings</strong>: Proxmox API URL, authentication</li>
+<li><strong>VM specifications</strong>: CPU, memory, disk, network settings</li>
+<li><strong>ISO configuration</strong>: Ubuntu Server 22.04 LTS installation</li>
+<li><strong>Cloud-init setup</strong>: Automated installation and configuration</li>
+<li><strong>Boot commands</strong>: Automated installation parameters</li>
+</ul>
+<p><code>variables.pkr.hcl</code> - Variable Definitions
+Contains configurable parameters:</p>
+<ul>
+<li><strong>Proxmox connection</strong>: Host IP, API tokens, SSH credentials</li>
+<li><strong>VM settings</strong>: Node name, VM ID, storage pools</li>
+<li><strong>Validation rules</strong>: Input validation for security and correctness</li>
+</ul>
+<h3 id="set-environment-variables"><a class="header" href="#set-environment-variables">Set Environment Variables</a></h3>
+<p>Configure the required environment variables for Packer:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Description</th><th>Type</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>proxmox_host_ip</code></td><td>Proxmox server URL</td><td><code>string</code></td><td><code>env("PROXMOX_HOST_IP")</code></td><td>Yes</td></tr>
+<tr><td><code>proxmox_api_token_id</code></td><td>API token ID</td><td><code>string</code></td><td><code>env("PROXMOX_API_TOKEN_ID")</code></td><td>Yes</td></tr>
+<tr><td><code>proxmox_api_token_secret</code></td><td>API token secret</td><td><code>string</code></td><td><code>env("PROXMOX_API_TOKEN_SECRET")</code></td><td>Yes</td></tr>
+<tr><td><code>ssh_username</code></td><td>SSH username for build</td><td><code>string</code></td><td><code>env("SSH_USERNAME")</code></td><td>Yes</td></tr>
+<tr><td><code>ssh_public_key</code></td><td>Public key used to authorize users to the VM</td><td><code>string</code></td><td><code>env("SSH_PUBLIC_KEY")</code></td><td>Yes</td></tr>
+<tr><td><code>vm_id</code></td><td>VM ID for the template (1000-1999)</td><td><code>number</code></td><td><code>env("VM_ID")</code></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<p>As those variables refer values from environment variables value, we can set it directly from command line. For example:</p>
+<pre><code class="language-bash"># Proxmox Connection
+export PROXMOX_HOST_IP="https://192.168.1.100"
+export PROXMOX_API_TOKEN_ID='terraform@pve!deployment-token'
+export PROXMOX_API_TOKEN_SECRET="your-token-secret"
+export SSH_USERNAME="your-ssh-user"
+export SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+export PKR_VAR_vm_id=1000
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The SSH public key path can vary depending on your key type and location:</p>
+<ul>
+<li><strong>RSA keys</strong>: <code>~/.ssh/id_rsa.pub</code></li>
+<li><strong>ED25519 keys</strong>: <code>~/.ssh/id_ed25519.pub</code> (recommended)</li>
+<li><strong>ECDSA keys</strong>: <code>~/.ssh/id_ecdsa.pub</code></li>
+<li><strong>Custom location</strong>: Use the full path to your public key file</li>
+</ul>
+</blockquote>
+<h3 id="customize-configuration-optional"><a class="header" href="#customize-configuration-optional">Customize Configuration (Optional)</a></h3>
+<p>Edit the following files as needed:</p>
+<p><strong><code>http/user-data.tpl</code></strong> - Cloud-init user configuration:</p>
+<ul>
+<li>Update user information</li>
+<li>Modify SSH keys</li>
+<li>Adjust timezone settings</li>
+<li>Add/remove packages</li>
+</ul>
+<p><strong><code>files/99-pve.cfg</code></strong> - Proxmox-specific cloud-init settings:</p>
+<ul>
+<li>Configure datasource for Proxmox integration</li>
+</ul>
+<h3 id="build-the-template"><a class="header" href="#build-the-template">Build the Template</a></h3>
+<p>Before building, validate your configuration to ensure everything is properly configured:</p>
+<pre><code class="language-bash">packer validate .
+</code></pre>
+<p>If validation passes, run Packer to build the VM template:</p>
+<pre><code class="language-bash">packer build .
+</code></pre>
+<p>To update image, you can run build with <code>-force</code> argument:</p>
+<pre><code class="language-bash">packer build -force .
+</code></pre>
+<p>For more information about using variables with Packer, see the <a href="https://developer.hashicorp.com/packer/docs/commands/build">Packer build command documentation</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="hashicorp-vault-infrastructure"><a class="header" href="#hashicorp-vault-infrastructure">HashiCorp Vault Infrastructure</a></h1>
+<h2 id="overview-4"><a class="header" href="#overview-4">Overview</a></h2>
+<p>This section covers the complete HashiCorp Vault infrastructure setup on Proxmox, including image building, server deployment, and component configuration. Vault provides secure secret management for your homelab environment.</p>
+<h2 id="components-1"><a class="header" href="#components-1">Components</a></h2>
+<h3 id="vault-image-builder"><a class="header" href="#vault-image-builder"><strong>Vault Image Builder</strong></a></h3>
+<p>Creates a custom Vault server image using Packer with KMS encryption support.</p>
+<h3 id="vault-server"><a class="header" href="#vault-server"><strong>Vault Server</strong></a></h3>
+<p>Deploys the Vault server using Terraform with secure configuration.</p>
+<h3 id="vault-components"><a class="header" href="#vault-components"><strong>Vault Components</strong></a></h3>
+<p>Configures Vault with authentication methods, policies, and secrets engines.</p>
+<h2 id="prerequisites-9"><a class="header" href="#prerequisites-9">Prerequisites</a></h2>
+<ul>
+<li>Proxmox server running and accessible</li>
+<li>Packer installed for image building</li>
+<li>Terraform installed for infrastructure deployment</li>
+<li>AWS KMS key for Vault encryption</li>
+<li>Environment variables configured</li>
+</ul>
+<h2 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h2>
+<ol>
+<li><strong>Build Vault Image</strong> - Create custom Vault server template</li>
+<li><strong>Deploy Vault Server</strong> - Deploy Vault server to Proxmox</li>
+<li><strong>Configure Components</strong> - Set up authentication and secrets</li>
+</ol>
+<h2 id="security-features"><a class="header" href="#security-features">Security Features</a></h2>
+<ul>
+<li><strong>KMS Encryption</strong>: AWS KMS integration for secure key management</li>
+<li><strong>TLS Communication</strong>: Encrypted communication with client certificates</li>
+<li><strong>Access Control</strong>: Role-based access control and policies</li>
+<li><strong>Secret Management</strong>: Secure storage and retrieval of sensitive data</li>
+</ul>
+<h2 id="next-steps-1"><a class="header" href="#next-steps-1">Next Steps</a></h2>
+<ul>
+<li><a href="#vault-image-builder-1">Vault Image Builder</a> - Create custom Vault server image</li>
+<li><a href="#vault-server-deployment">Vault Server Deployment</a> - Deploy Vault server to Proxmox</li>
+<li><a href="#vault-components-setup">Vault Components Setup</a> - Configure Vault authentication and policies</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vault-image-builder-1"><a class="header" href="#vault-image-builder-1">Vault Image Builder</a></h1>
+<h2 id="overview-5"><a class="header" href="#overview-5">Overview</a></h2>
+<p>Creates a custom HashiCorp Vault server image for Proxmox using Packer. The image includes Vault pre-installed with KMS encryption support and systemd service configuration.</p>
+<h2 id="prerequisites-10"><a class="header" href="#prerequisites-10">Prerequisites</a></h2>
+<ul>
+<li>Packer installed</li>
+<li>Proxmox server accessible</li>
+<li><a href="#trusted-ca-store-configuration">Trusted CA Store</a> configuration completed</li>
+<li><a href="#proxmox-users-and-roles-configuration">Proxmox User and Roles</a> setup completed</li>
+<li><a href="#guidelines">VM Templates</a> setup completed</li>
+</ul>
+<h2 id="vm-specifications-1"><a class="header" href="#vm-specifications-1">VM Specifications</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Component</th><th>Specification</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Base Template</strong></td><td>Ubuntu Server 22.04 LTS (Jammy)</td></tr>
+<tr><td><strong>CPU</strong></td><td>2 cores</td></tr>
+<tr><td><strong>Memory</strong></td><td>2 GB</td></tr>
+<tr><td><strong>Disk</strong></td><td>20 GB (virtio)</td></tr>
+<tr><td><strong>Network</strong></td><td>virtio (vmbr0)</td></tr>
+<tr><td><strong>Storage Pool</strong></td><td>local-lvm</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="configuration-5"><a class="header" href="#configuration-5">Configuration</a></h2>
+<h3 id="module-location-5"><a class="header" href="#module-location-5">Module Location</a></h3>
+<pre><code class="language-bash">resources/proxmox/02_vault/00_vault_image
+</code></pre>
+<h3 id="files-1"><a class="header" href="#files-1">Files</a></h3>
+<p><strong><code>build.pkr.hcl</code></strong> - Build Definition</p>
+<ul>
+<li>Defines the build process and provisioning steps</li>
+<li>Configures Vault installation and service setup</li>
+</ul>
+<p><strong><code>sources.pkr.hcl</code></strong> - Source Configuration</p>
+<ul>
+<li>Proxmox VM source configuration</li>
+<li>Hardware specifications and network settings</li>
+<li>Cloud-init integration</li>
+</ul>
+<p><strong><code>variables.pkr.hcl</code></strong> - Variable Definitions</p>
+<ul>
+<li>Configurable parameters for the build</li>
+<li>Validation rules for input parameters</li>
+</ul>
+<h3 id="set-environment-variables-1"><a class="header" href="#set-environment-variables-1">Set Environment Variables</a></h3>
+<p>Configure the required environment variables for Packer:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Description</th><th>Type</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>proxmox_host_ip</code></td><td>IP address of Proxmox host</td><td><code>string</code></td><td><code>"https://192.168.1.100"</code></td><td>No</td></tr>
+<tr><td><code>proxmox_api_token_id</code></td><td>API token ID in format <code>user@realm!tokenname</code></td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>proxmox_api_token_secret</code></td><td>API token secret for Proxmox authentication</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>vm_id</code></td><td>VM ID for the template ((should range between 1000 and 1999))</td><td><code>number</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>vm_name</code></td><td>Name of the Vault template</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>vm_ip</code></td><td>IP address for the Vault VM</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>ssh_username</code></td><td>SSH username for build</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>vault_version</code></td><td>Vault version to install</td><td><code>string</code></td><td><code>"1.20.4"</code></td><td>No</td></tr>
+<tr><td><code>vault_cluster_name</code></td><td>Name of the Vault cluster</td><td><code>string</code></td><td><code>"my-vault"</code></td><td>No</td></tr>
+<tr><td><code>vault_storage_node_id</code></td><td>Storage node ID for Vault</td><td><code>string</code></td><td><code>"vault-server"</code></td><td>No</td></tr>
+<tr><td><code>kms_key_id</code></td><td>AWS KMS key ID for Vault encryption</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>aws_access_key_id</code></td><td>AWS access key for KMS operations</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>aws_secret_access_key</code></td><td>AWS secret key for KMS operations</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>aws_region</code></td><td>AWS region for KMS operations</td><td><code>string</code></td><td><code>"us-east-1"</code></td><td>No</td></tr>
+<tr><td><code>tls_allowed_ips</code></td><td>Comma-separated list of IP addresses for TLS certificate</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p>Set the required Packer variables using the <code>PKR_VAR_</code> prefix, for example:</p>
+<pre><code class="language-bash"># Packer Variables
+export PKR_VAR_proxmox_host_ip="https://192.168.1.100"
+export PKR_VAR_proxmox_api_token_id='terraform@pve!deployment-token'
+export PKR_VAR_proxmox_api_token_secret="your-token-secret"
+export PKR_VAR_vm_id=1002
+export PKR_VAR_vm_name="vault-template"
+export PKR_VAR_vm_ip="192.168.1.3"
+export PKR_VAR_ssh_username="ubuntu"
+export PKR_VAR_vault_cluster_name="my-vault"
+export PKR_VAR_vault_storage_node_id="vault-server"
+export PKR_VAR_kms_key_id="12345678-abcd-1234-abcd-123456789101"
+export PKR_VAR_aws_access_key_id="your-aws-access-key"
+export PKR_VAR_aws_secret_access_key="your-aws-secret-key"
+export PKR_VAR_aws_region="us-east-1"
+export PKR_VAR_tls_allowed_ips="127.0.0.1,192.168.1.3"
+</code></pre>
+<h3 id="build-the-image"><a class="header" href="#build-the-image">Build the Image</a></h3>
+<p>Before building, validate your configuration:</p>
+<pre><code class="language-bash">packer validate .
+</code></pre>
+<p>If validation passes, run Packer to build the Vault image:</p>
+<pre><code class="language-bash">packer build .
+</code></pre>
+<p>To update image, you can run build with <code>-force</code> argument:</p>
+<pre><code class="language-bash">packer build -force .
+</code></pre>
+<h2 id="post-deployment-1"><a class="header" href="#post-deployment-1">Post Deployment</a></h2>
+<h3 id="client-certificate-management"><a class="header" href="#client-certificate-management">Client Certificate Management</a></h3>
+<p>After successful deployment, a <strong><code>client.pem</code></strong> file will be created in the <code>downloads/</code> folder. This certificate is essential for secure communication with your Vault server and should be moved to a secure location immediately.</p>
+<p><strong>Purpose of the client certificate:</strong></p>
+<ul>
+<li>Enables secure TLS communication with the Vault server</li>
+<li>Required for authenticated API access to Vault</li>
+<li>Provides client authentication for encrypted connections</li>
+<li>Essential for future Vault operations and management</li>
+</ul>
+<p><strong>Security Recommendations:</strong></p>
+<ol>
+<li>Move <code>client.pem</code> to a secure location outside the downloads folder</li>
+<li>Store in encrypted storage or secure key management system</li>
+<li>Set appropriate file permissions (600) to restrict access</li>
+<li>Keep backup copies in separate secure locations</li>
+<li>Never commit certificate files to version control</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vault-server-deployment"><a class="header" href="#vault-server-deployment">Vault Server Deployment</a></h1>
+<h2 id="overview-6"><a class="header" href="#overview-6">Overview</a></h2>
+<p>Deploys the HashiCorp Vault server using the custom image created in the previous step. This creates a production-ready Vault server with secure configuration and client certificate generation.</p>
+<h2 id="prerequisites-11"><a class="header" href="#prerequisites-11">Prerequisites</a></h2>
+<ul>
+<li><a href="#vault-image-builder-1">Vault image</a> created in previous step</li>
+<li>Terraform installed</li>
+<li>Environment variables configured</li>
+<li>Proxmox server accessible</li>
+</ul>
+<h2 id="configuration-6"><a class="header" href="#configuration-6">Configuration</a></h2>
+<h3 id="module-location-6"><a class="header" href="#module-location-6">Module Location</a></h3>
+<pre><code class="language-bash">resources/proxmox/02_vault/01_vault_server
+</code></pre>
+<h3 id="configure-backend-3"><a class="header" href="#configure-backend-3">Configure Backend</a></h3>
+<p>Copy the backend configuration example and update the values:</p>
+<pre><code class="language-bash">cp backend.config.example backend.config
+</code></pre>
+<p>Edit <code>backend.config</code> and update the S3 bucket name:</p>
+<pre><code class="language-hcl">bucket = "your-actual-s3-bucket-name"
+region = "us-east-1"
+</code></pre>
+<h3 id="deploy-vault-server"><a class="header" href="#deploy-vault-server">Deploy Vault Server</a></h3>
+<pre><code class="language-bash">terraform init -backend-config="./backend.config"
+terraform plan
+terraform apply
+</code></pre>
+<h3 id="configure-variables-4"><a class="header" href="#configure-variables-4">Configure Variables</a></h3>
+<p>The following variables will be prompted during deployment:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Type</th><th>Description</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>proxmox_endpoint</code></td><td>string</td><td>The URL of the Proxmox endpoint (Format: https://proxmox-host-ip:8006)</td><td></td><td>Yes</td></tr>
+<tr><td><code>user_terraform_password</code></td><td>string</td><td>Password to login as terraform@pve user for deployment</td><td></td><td>Yes</td></tr>
+<tr><td><code>vm_source_template_id</code></td><td>number</td><td>The ID of VM template to be cloned from</td><td></td><td>Yes</td></tr>
+<tr><td><code>vm_id</code></td><td>number</td><td>ID of the VM (Please use range from 2000 to 3999)</td><td></td><td>Yes</td></tr>
+<tr><td><code>vm_ip</code></td><td>string</td><td>Static IP address for the VM (Example: 192.168.1.3)</td><td></td><td>Yes</td></tr>
+<tr><td><code>vm_username</code></td><td>string</td><td>Username to login to VM</td><td></td><td>Yes</td></tr>
+<tr><td><code>vm_password</code></td><td>string</td><td>Password to login to VM</td><td></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><strong>Note:</strong> Besides the variables listed above, you can customize additional VM settings (CPU cores, memory, disk size, etc.) by editing the <code>variables.tf</code> file directly for advanced configuration.</p>
+</blockquote>
+<h2 id="server-configuration"><a class="header" href="#server-configuration">Server Configuration</a></h2>
+<h3 id="vm-specifications-2"><a class="header" href="#vm-specifications-2"><strong>VM Specifications</strong></a></h3>
+<ul>
+<li><strong>CPU</strong>: 2 cores</li>
+<li><strong>Memory</strong>: 4 GB</li>
+<li><strong>Disk</strong>: 20 GB</li>
+<li><strong>Network</strong>: Bridge connection</li>
+<li><strong>Template</strong>: Custom Vault image</li>
+</ul>
+<h3 id="security-features-1"><a class="header" href="#security-features-1"><strong>Security Features</strong></a></h3>
+<ul>
+<li><strong>TLS Encryption</strong>: HTTPS communication enabled</li>
+<li><strong>Client Certificates</strong>: Secure certificate-based authentication</li>
+<li><strong>KMS Integration</strong>: AWS KMS for key management</li>
+<li><strong>Firewall Rules</strong>: Restricted network access</li>
+</ul>
+<h2 id="post-deployment-2"><a class="header" href="#post-deployment-2">Post-Deployment</a></h2>
+<p><strong>Download vault_init_output.txt</strong>:</p>
+<ul>
+<li>Copy the content from <code>vault_init_output.txt</code> to a secure location</li>
+<li>This file contains the <strong>root token</strong> and <strong>unseal keys</strong></li>
+<li>The root token is used to authenticate as the root user in Vault</li>
+<li>Move and store this file into a more secured location as it provides full administrative access</li>
+</ul>
+<blockquote>
+<p>Security recommendation: Store the root token and unseal keys in AWS SSM Parameter Store with KMS encryption instead of local files.</p>
+<p>Example commands:</p>
+<pre><code class="language-bash"># Store root token (SecureString) encrypted with default KMS key
+aws ssm put-parameter \
+  --name "/vault/root-token" \
+  --type "SecureString" \
+  --value "hvs.your_actual_token_here" \
+  --overwrite
+
+# Store unseal keys (SecureString). You may store each key separately or as JSON.
+aws ssm put-parameter \
+  --name "/vault/unseal-keys" \
+  --type "SecureString" \
+  --value '{"keys":["key1","key2","key3"]}' \
+  --overwrite
+
+# Retrieve (with decryption)
+aws ssm get-parameter --name "/vault/root-token" --with-decryption --query "Parameter.Value" --output text
+</code></pre>
+<p>Use a dedicated KMS key and least-privilege IAM policies for access control.</p>
+</blockquote>
+<p>After deployment, we can access the Vault UI at <code>https://&lt;ip&gt;:8200</code>. Enter the root token for first time login!</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: center"><img src="initial_setup/vault/images/vault_login.png" alt="Vault UI Login Screen"></th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: center"><em>Enter your root token for first time sign-in.</em></td></tr>
+</tbody>
+</table>
+</div>
+<p>Once login successfully, we should see a dashboard as below. Congrats! We’re now ready to use Hashicorp Vault for further steps!
+<img src="initial_setup/vault/images/vault_dashboard.png" alt="Vault UI Dashboard"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vault-components-setup"><a class="header" href="#vault-components-setup">Vault Components Setup</a></h1>
+<h2 id="overview-7"><a class="header" href="#overview-7">Overview</a></h2>
+<p>Configures HashiCorp Vault with authentication methods, policies, and secrets engines. This step establishes secure access control and prepares Vault for secret management operations.</p>
+<h2 id="prerequisites-12"><a class="header" href="#prerequisites-12">Prerequisites</a></h2>
+<ul>
+<li><a href="#vault-server-deployment">Vault server</a> deployed and accessible</li>
+<li>Client certificate downloaded</li>
+<li>Root token available</li>
+<li>Terraform installed</li>
+</ul>
+<h2 id="configuration-7"><a class="header" href="#configuration-7">Configuration</a></h2>
+<h3 id="module-location-7"><a class="header" href="#module-location-7">Module Location</a></h3>
+<pre><code class="language-bash">resources/proxmox/02_vault/02_vault_components
+</code></pre>
+<h3 id="set-vault-environment-variables"><a class="header" href="#set-vault-environment-variables">Set Vault Environment Variables</a></h3>
+<p>Configure Vault connection using the client certificate from the <a href="#post-deployment-1">Vault Image</a> and the token generated from the <a href="#post-deployment-2">Vault Server Deployment</a> step:</p>
+<pre><code class="language-bash">export VAULT_TOKEN="hvs...."
+export VAULT_ADDR="https://&lt;vm-ip&gt;:8200"
+export VAULT_CACERT="&lt;path-to-client.pem&gt;"
+</code></pre>
+<h3 id="deploy-vault-components"><a class="header" href="#deploy-vault-components">Deploy Vault Components</a></h3>
+<pre><code class="language-bash">terraform init -backend-config="./backend.config"
+terraform plan
+terraform apply
+</code></pre>
+<h2 id="configure-variables-5"><a class="header" href="#configure-variables-5">Configure Variables</a></h2>
+<p>The following variables will be prompted during deployment:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variable</th><th>Description</th><th>Type</th><th>Default</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td><code>admin_username</code></td><td>Username for admin user</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+<tr><td><code>admin_password</code></td><td>Password for admin user</td><td><code>string</code></td><td>-</td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="post-deployment-setup"><a class="header" href="#post-deployment-setup">Post-Deployment Setup</a></h2>
+<h3 id="access-vault-ui"><a class="header" href="#access-vault-ui"><strong>Access Vault UI</strong></a></h3>
+<ol>
+<li>
+<p><strong>Navigate to Vault UI</strong>:</p>
+<pre><code>https://&lt;vm-ip&gt;:8200/ui
+</code></pre>
+</li>
+<li>
+<p><strong>Login with root token</strong>:</p>
+<ul>
+<li>Use token from <code>vault_init_output.txt</code></li>
+<li>Format: <code>hvs.&lt;token-value&gt;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="create-required-secrets"><a class="header" href="#create-required-secrets"><strong>Create Required Secrets</strong></a></h3>
+<p>Navigate to <code>Secrets / kv_secrets / proxmox</code> and create the following KV secrets:</p>
+<h4 id="ansible-configuration"><a class="header" href="#ansible-configuration"><strong>Ansible Configuration</strong></a></h4>
+<ul>
+<li><strong>Secret Name</strong>: <code>ansible_config</code></li>
+<li><strong>Required Fields</strong>:
+<ul>
+<li><code>ssh_user</code>: SSH username for Ansible connections</li>
+</ul>
+</li>
+</ul>
+<h4 id="default-vm-credentials"><a class="header" href="#default-vm-credentials"><strong>Default VM Credentials</strong></a></h4>
+<ul>
+<li><strong>Secret Name</strong>: <code>default_vm_credential</code></li>
+<li><strong>Required Fields</strong>:
+<ul>
+<li><code>username</code>: Default VM username (e.g., <code>ubuntu</code>, <code>root</code>)</li>
+<li><code>password</code>: Default VM password</li>
+</ul>
+</li>
+</ul>
+<h4 id="terraform-pve-credentials"><a class="header" href="#terraform-pve-credentials"><strong>Terraform PVE Credentials</strong></a></h4>
+<ul>
+<li><strong>Secret Name</strong>: <code>terraform_pve_credential</code></li>
+<li><strong>Required Fields</strong>:
+<ul>
+<li><code>user_id</code>: PVE user ID (e.g., <code>terraform@pve</code>)</li>
+<li><code>password</code>: PVE user password</li>
+</ul>
+</li>
+</ul>
+<h4 id="pve-control-api-token"><a class="header" href="#pve-control-api-token"><strong>PVE Control API Token</strong></a></h4>
+<ul>
+<li><strong>Secret Name</strong>: <code>terraform_pve_token</code></li>
+<li><strong>Required Fields</strong>:
+<ul>
+<li><code>token_name</code>: API token name (e.g., <code>deployment-token</code>)</li>
+<li><code>token_secret</code>: API token secret key (Generated secret value from Proxmox UI)</li>
+<li><code>token_username</code>: Associated username (e.g., <code>terraform@pve</code>)</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Security Note</strong>: Store all credentials securely and rotate them regularly. These secrets provide access to your Proxmox infrastructure and should be treated as highly sensitive.</p>
+</blockquote>
+<p>After setting, you should have similar UI like this:
+<img src="initial_setup/vault/images/kv.png" alt="kv_secrets"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="homelab-for-data-engineering---deployment-documentations"><a class="header" href="#homelab-for-data-engineering---deployment-documentations">Homelab for Data Engineering - Deployment Documentations</a></h1>
+<h2 id="overview-8"><a class="header" href="#overview-8">Overview</a></h2>
+<p>This repository provides a complete automation framework for Proxmox VE environments, combining Terraform for infrastructure provisioning and Ansible for configuration management. The solution supports complex multi-tier architectures with flexible inventory management and sequential deployment workflows.</p>
+<h2 id="key-features"><a class="header" href="#key-features">Key Features</a></h2>
+<ul>
+<li><strong>🔧 Infrastructure as Code</strong>: Complete Terraform automation for Proxmox VE</li>
+<li><strong>📦 Template Management</strong>: Packer-based VM template creation and versioning</li>
+<li><strong>⚙️ Configuration Management</strong>: Ansible playbooks with role-based deployment</li>
+<li><strong>🏗️ Modular Design</strong>: Reusable components for different environments</li>
+<li><strong>📊 Dynamic Inventory</strong>: Auto-generated Ansible inventories from Terraform state</li>
+<li><strong>🔄 Sequential Deployment</strong>: Dependency-aware playbook execution</li>
+<li><strong>🎯 Multi-Architecture Support</strong>: Complex cluster configurations (Spark, Kafka, etc.)</li>
+</ul>
+<h2 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h2>
+<p>The current repository structure is organized as follows:</p>
+<pre><code>proxmox-homelab-deploy/
+├── ansible/                    # Configuration management
+├── config/                     # Configuration files
+├── terraform/                  # Infrastructure provisioning
+│   ├── modules/               # Reusable Terraform modules
+│   ├── deployments/           # Stack-specific deployments
+│   └── templates/             # VM template creation
+└── pyproject.toml             # Python project configuration
+</code></pre>
+<h2 id="getting-started-2"><a class="header" href="#getting-started-2">Getting Started</a></h2>
+<p>Before implementing any stack, please read the following sections:</p>
+<h3 id="-general-guidelines"><a class="header" href="#-general-guidelines">📋 General Guidelines</a></h3>
+<ul>
+<li><strong><a href="#general-guidelines">General Guidelines</a></strong> - Overview of deployment principles and best practices</li>
+<li><strong><a href="#setting-environment-variables">Set Environment</a></strong> - Environment setup and configuration</li>
+<li><strong><a href="#infrastructure-configurations">Build Configuration</a></strong> - Configuration management and templating</li>
+<li><strong><a href="#convention-rules">Convention Rules</a></strong> - Conventions for choosing VM IDs and IP Addresses</li>
+</ul>
+<h3 id="stacks"><a class="header" href="#stacks">Stacks</a></h3>
+<p>Choose a <a href="#stacks-1">stack</a> from the available options to deploy.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="general-guidelines"><a href="#general-guidelines" class="header">General Guidelines</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="infrastructure-configurations"><a class="header" href="#infrastructure-configurations">Infrastructure Configurations</a></h1>
+<p>This document provides detailed guidance on configuring infrastructure components for the Proxmox homelab deployment framework. It covers the structure and usage of three essential configuration files that define global settings, VM templates, and deployment specifications.</p>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#global-configuration-globalyml">Global Configuration (global.yml)</a></li>
+<li><a href="#vm-templates-configuration-templatesyml">VM Templates Configuration (templates.yml)</a></li>
+<li><a href="#vm-deployments-configuration-vmsyml">VM Deployments Configuration (vms.yml)</a></li>
+</ul>
+<h2 id="global-configuration-globalyml"><a class="header" href="#global-configuration-globalyml">Global Configuration (global.yml)</a></h2>
+<p>The <code>global.yml</code> file contains system-wide configuration settings that apply across all deployments. This includes network settings, Vault configuration, and other global parameters.</p>
+<h3 id="configuration-structure"><a class="header" href="#configuration-structure">Configuration Structure</a></h3>
+<p>The global configuration follows this structure:</p>
+<pre><code class="language-yaml">transient_ip: &lt;ip_address&gt;
+vault:
+  addr: "&lt;vault_url&gt;"
+  cacert: "&lt;certificate_path&gt;"
+</code></pre>
+<h3 id="key-components"><a class="header" href="#key-components">Key Components</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th><th>Validation Rules</th></tr>
+</thead>
+<tbody>
+<tr><td><code>transient_ip</code></td><td>string</td><td>Yes</td><td>IP address used for temporary/transient resources during template creation</td><td>Must be a valid IP address in infrastructure range (192.168.1.2-192.168.1.20)</td></tr>
+<tr><td><code>vault.addr</code></td><td>string</td><td>Yes</td><td>HashiCorp Vault server URL for secrets management</td><td>Must be a valid URL and accessible from deployment environment</td></tr>
+<tr><td><code>vault.cacert</code></td><td>string</td><td>No</td><td>Path to Vault CA certificate file</td><td>Path must exist if specified;</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="alternative-system-trust-store-configuration"><a class="header" href="#alternative-system-trust-store-configuration">Alternative: System Trust Store Configuration</a></h3>
+<p>If you prefer not to specify the <code>cacert</code> path in the configuration, you can configure your system to trust the Vault CA certificate globally:</p>
+<ol>
+<li>
+<p><strong>Copy the client certificate</strong> from the <a href="#vault-image-builder-1">Vault image build</a> downloads folder:</p>
+<pre><code class="language-bash">sudo cp client.pem /usr/local/share/ca-certificates/vault-ca.crt
+</code></pre>
+</li>
+<li>
+<p><strong>Update the system trust store</strong>:</p>
+<pre><code class="language-bash">sudo update-ca-certificates
+</code></pre>
+<p>You should see output similar to:</p>
+<pre><code>Updating certificates in /etc/ssl/certs...
+1 added, 0 removed; done.
+</code></pre>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note</strong>: When using system trust store configuration, the <code>cacert</code> field can be omitted from the configuration as the system will automatically trust the Vault certificate.</p>
+</blockquote>
+<h3 id="example-configuration"><a class="header" href="#example-configuration">Example Configuration</a></h3>
+<pre><code class="language-yaml">transient_ip: "192.168.1.2"
+vault:
+  addr: "https://192.168.1.3:8200"
+  cacert: "~/client.pem"
+</code></pre>
+<h2 id="vm-templates-configuration-templatesyml"><a class="header" href="#vm-templates-configuration-templatesyml">VM Templates Configuration (templates.yml)</a></h2>
+<p>The <code>templates.yml</code> file defines VM templates that serve as base images for creating deployment instances. Templates are pre-configured VMs with specific software and configurations installed.</p>
+<h3 id="configuration-structure-1"><a class="header" href="#configuration-structure-1">Configuration Structure</a></h3>
+<p>Templates are organized by stack type with the following structure:</p>
+<pre><code class="language-yaml">&lt;stack_name&gt;:
+  vms:
+    - name: "&lt;template_name&gt;"
+      id: &lt;template_id&gt;
+      ip: "&lt;template_ip&gt;"
+      description: "&lt;template_description&gt;"
+      tags: ["&lt;tag1&gt;", "&lt;tag2&gt;"]
+      vars:
+        &lt;key&gt;: "&lt;value&gt;"
+</code></pre>
+<h3 id="key-components-1"><a class="header" href="#key-components-1">Key Components</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th><th>Validation Rules</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Unique name for the template VM</td><td>Must be unique across all templates</td></tr>
+<tr><td><code>id</code></td><td>integer</td><td>Yes</td><td>Proxmox VM ID</td><td>Must be in range 1000-1999 and unique</td></tr>
+<tr><td><code>ip</code></td><td>string</td><td>No</td><td>IP address for the template</td><td>If not defined, use a transient ip <code>192.168.1.2</code></td></tr>
+<tr><td><code>description</code></td><td>string</td><td>No</td><td>Human-readable description of the template</td><td>No validation required</td></tr>
+<tr><td><code>tags</code></td><td>array</td><td>No</td><td>List of tags for categorization and filtering</td><td>Array of strings, no duplicates</td></tr>
+<tr><td><code>vars</code></td><td>object</td><td>No</td><td>Key-value pairs for template-specific variables</td><td>Key-value pairs for custom configuration</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="example-configuration-1"><a class="header" href="#example-configuration-1">Example Configuration</a></h3>
+<pre><code class="language-yaml">spark_base:
+  vms:
+    - name: "spark-base"
+      id: 1001
+      ip: "192.168.1.200"
+      description: "Spark Base Template VM"
+      tags: ["template", "spark"]
+      vars:
+        role: "base"
+</code></pre>
+<h2 id="vm-deployments-configuration-vmsyml"><a class="header" href="#vm-deployments-configuration-vmsyml">VM Deployments Configuration (vms.yml)</a></h2>
+<p>The <code>vms.yml</code> file defines actual VM deployments organized by cluster or service type. This includes master/worker configurations, service-specific variables, and template references.</p>
+<h3 id="configuration-structure-2"><a class="header" href="#configuration-structure-2">Configuration Structure</a></h3>
+<p>Deployments are organized by cluster type with the following structure:</p>
+<pre><code class="language-yaml">&lt;stack_name&gt;:
+  vms:
+    &lt;node_type&gt;:
+      hosts:
+        - name: "&lt;vm_name&gt;"
+          id: &lt;vm_id&gt;
+          ip: "&lt;vm_ip&gt;"
+          tags: ["&lt;tag1&gt;", "&lt;tag2&gt;"]
+          vars:
+            &lt;key&gt;: "&lt;value&gt;"
+      template_id: &lt;template_id&gt;
+</code></pre>
+<h3 id="key-components-2"><a class="header" href="#key-components-2">Key Components</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th><th>Validation Rules</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Unique name for the VM instance</td><td>Must be unique within each cluster</td></tr>
+<tr><td><code>id</code></td><td>integer</td><td>Yes</td><td>Proxmox VM ID</td><td>Must be in range 2000-2999 and unique</td></tr>
+<tr><td><code>ip</code></td><td>string</td><td>Yes</td><td>IP address for the VM</td><td>Must be in application range (192.168.1.21-254) and unique</td></tr>
+<tr><td><code>tags</code></td><td>array</td><td>No</td><td>List of tags for categorization and Ansible inventory</td><td>Array of strings, used for Ansible grouping</td></tr>
+<tr><td><code>vars</code></td><td>object</td><td>No</td><td>Service-specific variables and configuration</td><td>Key-value pairs passed to Ansible playbooks</td></tr>
+<tr><td><code>template_id</code></td><td>integer</td><td>Yes</td><td>ID of the template to use for VM creation</td><td>Must reference existing template in templates.yml</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="example-configuration-2"><a class="header" href="#example-configuration-2">Example Configuration</a></h3>
+<pre><code class="language-yaml">spark_cluster:
+  vms:
+    masters:
+      hosts:
+        - name: "spark-master-1"
+          id: 2000
+          ip: "192.168.1.101"
+          tags: ["vm", "spark_master"]
+          vars:
+            role: "master"
+            spark_master_port: "7077"
+            spark_web_ui_port: "8080"
+      template_id: 1001
+
+    workers:
+      hosts:
+        - name: "spark-worker-1"
+          id: 2001
+          ip: "192.168.1.102"
+          tags: ["vm", "spark_worker"]
+          vars:
+            role: "worker"
+            spark_worker_port: "8081"
+            spark_worker_web_ui_port: "8081"
+      template_id: 1001
+
+minio_cluster:
+  vms:
+    servers:
+      hosts:
+        - name: "minio"
+          id: 2011
+          ip: "192.168.1.106"
+          tags: ["vm", "minio"]
+          vars:
+            role: "server"
+            minio_port: "9000"
+            minio_console_port: "9001"
+      template_id: 1000
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="convention-rules"><a class="header" href="#convention-rules">Convention Rules</a></h1>
+<p>When building Proxmox infrastructure, please follow these naming and addressing conventions</p>
+<h2 id="vm-id-ranges"><a class="header" href="#vm-id-ranges">VM ID Ranges</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Resource Type</th><th>ID Range</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Template VMs</td><td><code>1000-1999</code></td><td>VM templates created with Terraform</td></tr>
+<tr><td>Regular VMs</td><td><code>2000-2999</code></td><td>Production and development VMs</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="ip-address-allocation"><a class="header" href="#ip-address-allocation">IP Address Allocation</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Service/Component</th><th>IP Address / Range</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Gateway</td><td>Gateway</td><td><code>192.168.1.1</code></td><td>Network gateway</td></tr>
+<tr><td>Host</td><td>Proxmox Host</td><td><code>192.168.1.x</code></td><td>Proxmox VE server (choose suitable address)</td></tr>
+<tr><td>Infrastructure</td><td>Transient IP</td><td><code>192.168.1.2</code></td><td>Temporary/transient resources</td></tr>
+<tr><td>Infrastructure</td><td>HashiCorp Vault</td><td><code>192.168.1.3</code></td><td>Secrets management and configuration</td></tr>
+<tr><td>Infrastructure</td><td>Reserved</td><td><code>192.168.1.4 - 192.168.1.20</code></td><td>Reserved for DevOps and management services</td></tr>
+<tr><td>Application VMs</td><td>Other VMs</td><td><code>192.168.1.21 - 192.168.1.254</code></td><td>Regular VMs and services (exclude Proxmox Host)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>Infrastructure services <strong>(1.1-1.20)</strong>: Reserved for DevOps tools, monitoring, secrets management, and other infrastructure services</li>
+<li>Application VMs <strong>(1.21-1.254)</strong>: Reserved for application workloads, data processing clusters, and other business services</li>
+<li>This allocation provides <strong>19</strong> IPs for infrastructure services and <strong>234</strong> IPs for application VMs</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="setting-environment-variables"><a class="header" href="#setting-environment-variables">Setting Environment Variables</a></h1>
+<p>This guide explains how to properly configure your environment variables before deploying infrastructure components. The environment setup is crucial for secure communication with Vault and proper Terraform execution.</p>
+<h2 id="prerequisites-13"><a class="header" href="#prerequisites-13">Prerequisites</a></h2>
+<p>Before setting up your environment, ensure you have:</p>
+<ul>
+<li>Complete the <a href="#vault-server-deployment">Vault Server deployment</a> first</li>
+<li>Obtain the root token from <code>vault_init_output.txt</code> generated during Vault server deployment</li>
+</ul>
+<h2 id="update-global-configuration"><a class="header" href="#update-global-configuration">Update Global Configuration</a></h2>
+<p>First, you need to update the <code>config/global.yml</code> file with your Vault server details.</p>
+<p>For example:</p>
+<pre><code class="language-yaml">...
+vault:
+  addr: "https://192.168.1.400:8200"
+  cacert: "~/client.pem"
+</code></pre>
+<h2 id="set-vault-token"><a class="header" href="#set-vault-token">Set Vault Token</a></h2>
+<p>Export the Vault token that was generated during the Vault server deployment.</p>
+<p>The Vault token can be found in the <code>vault_init_output.txt</code> file created during the <a href="#vault-server-deployment">Vault Server deployment</a>. This file contains:</p>
+<ul>
+<li><strong>Root Token</strong>: Used for administrative access to Vault</li>
+<li><strong>Unseal Keys</strong>: Used to unseal the Vault server</li>
+</ul>
+<p>Run:</p>
+<pre><code class="language-bash">export VAULT_TOKEN="hvs.your_actual_token_here"
+</code></pre>
+<p><strong>Note</strong>: If you’re using AWS SSM Parameter Store to store your Vault token, you can retrieve it using:</p>
+<pre><code class="language-bash">export VAULT_TOKEN=$(aws ssm get-parameter --name &lt;parameter-path&gt; --with-decryption --query "Parameter.Value" --output text)
+</code></pre>
+<p><em>Replace <code>&lt;parameter-path&gt;</code> with your actual SSM parameter path (e.g., <code>/vault/token</code>).</em></p>
+<h2 id="run-environment-setup-script"><a class="header" href="#run-environment-setup-script">Run Environment Setup Script</a></h2>
+<p>Navigate to the terraform directory and source the environment setup script:</p>
+<pre><code class="language-bash">cd terraform
+source set_env.sh
+</code></pre>
+<p>The <code>set_env.sh</code> script performs the following actions:</p>
+<ol>
+<li><strong>Loads Vault Configuration</strong>: Reads <code>VAULT_ADDR</code> and <code>VAULT_CACERT</code> from <code>config/global.yml</code></li>
+<li><strong>Verifies Environment</strong>: Checks that all required environment variables are set</li>
+<li><strong>Retrieves Terraform Variables</strong>: Fetches secrets from Vault KV store and sets them as Terraform environment variables</li>
+</ol>
+<h3 id="environment-variables-set"><a class="header" href="#environment-variables-set">Environment Variables Set</a></h3>
+<p>The script automatically sets the following Terraform variables by retrieving them from Vault:</p>
+<ul>
+<li><code>TF_VAR_proxmox_endpoint</code>: Proxmox server endpoint</li>
+<li><code>TF_VAR_gateway_address</code>: Network gateway address</li>
+<li><code>TF_VAR_vm_username</code>: Default VM username</li>
+<li><code>TF_VAR_vm_password</code>: Default VM password</li>
+<li><code>TF_VAR_pve_token_username</code>: Proxmox token username</li>
+<li><code>TF_VAR_pve_token_id</code>: Proxmox token ID</li>
+<li><code>TF_VAR_pve_token_secret</code>: Proxmox token secret</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="stacks-1"><a href="#stacks-1" class="header">Stacks</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="spark-cluster-deployment"><a class="header" href="#spark-cluster-deployment">Spark Cluster Deployment</a></h1>
+<p>This guide walks you through deploying a Spark cluster on Proxmox using Terraform and Ansible. The deployment consists of 4 main steps that must be executed in order.</p>
+<h2 id="prerequisites-14"><a class="header" href="#prerequisites-14">Prerequisites</a></h2>
+<p>Before starting, ensure you have:</p>
+<ul>
+<li>A running Proxmox VE server</li>
+<li>Vault configured with necessary secrets</li>
+<li>Terraform installed</li>
+<li>Ansible installed</li>
+<li>Completed <a href="#hashicorp-vault-infrastructure">Hashicorp Vault setup</a></li>
+</ul>
+<h2 id="set-up-environment-variables"><a class="header" href="#set-up-environment-variables">Set up environment variables</a></h2>
+<blockquote>
+<p>Note: If you haven’t completed this setup <a href="#setting-environment-variables">Setting Environment Variables</a>, please follow the instructions from this page before proceeding to the next steps.</p>
+</blockquote>
+<h2 id="build-template-spark_base"><a class="header" href="#build-template-spark_base">Build Template (spark_base)</a></h2>
+<p>This step creates a base VM template with Spark pre-installed that will be used to deploy the cluster.</p>
+<pre><code class="language-bash">cd terraform/templates/spark_base
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
+terraform plan
+terraform apply
+</code></pre>
+<h2 id="update-configvmsyml"><a class="header" href="#update-configvmsyml">Update config/vms.yml</a></h2>
+<p>Configure your Spark cluster by updating the VM specifications in the configuration file. For example:</p>
+<pre><code class="language-yaml">spark_cluster:
+  vms:
+    masters:
+      hosts:
+        - name: "spark-master-1"
+          id: 2002
+          ip: "192.168.1.20"
+          tags: ["vm", "spark_master"]
+          vars:
+            role: "master"
+            spark_master_port: "7077"
+            spark_web_ui_port: "8080"
+      template_id: 1003
+      node: "pve2"
+
+    workers:
+      hosts:
+        - name: "spark-worker-1"
+          id: 2003
+          ip: "192.168.1.21"
+          tags: ["vm", "spark_worker"]
+          vars:
+            role: "worker"
+            spark_worker_port: "8081"
+            spark_worker_web_ui_port: "8081"
+
+        - name: "spark-worker-2"
+          id: 2004
+          ip: "192.168.1.22"
+          tags: ["vm", "spark_worker"]
+          vars:
+            role: "worker"
+            spark_worker_port: "8081"
+            spark_worker_web_ui_port: "8081"
+      template_id: 1003
+      node: "pve2"
+</code></pre>
+<p><strong>Configuration options:</strong></p>
+<ul>
+<li><strong>Masters</strong>: Define Spark master nodes with their IPs and ports</li>
+<li><strong>Workers</strong>: Define Spark worker nodes with their IPs and ports</li>
+<li><strong>Node</strong>: Proxmox node name where the VM will be deployed (e.g., “pve”, “pve2”)</li>
+<li><strong>Template ID</strong>: Must reference the ID of the template</li>
+<li><strong>IP Addresses</strong>: Ensure they don’t conflict with existing VMs</li>
+<li><strong>VM IDs</strong>: Must be unique across your Proxmox environment</li>
+</ul>
+<h2 id="deploy-vm-with-terraform-spark"><a class="header" href="#deploy-vm-with-terraform-spark">Deploy VM with Terraform (spark/)</a></h2>
+<p>Deploy the actual Spark cluster using the configuration from Step 3.</p>
+<pre><code class="language-bash">cd terraform/deployments/spark
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
+terraform plan
+terraform apply
+</code></pre>
+<p><strong>What this does:</strong></p>
+<ul>
+<li>Creates Spark master VM(s) from the template</li>
+<li>Creates Spark worker VM(s) from the template</li>
+<li>Configures network settings and cloud-init</li>
+<li>Runs Ansible playbooks to configure Spark services</li>
+<li>Sets up master and worker roles with proper networking</li>
+</ul>
+<p><strong>Deployment includes:</strong></p>
+<ul>
+<li><strong>Spark Master</strong>: Web UI on port 8080, master port 7077</li>
+<li><strong>Spark Workers</strong>: Web UI on port 8081, worker ports 8081</li>
+<li><strong>Ansible Configuration</strong>: Automated setup of Spark services</li>
+<li><strong>Network Configuration</strong>: Proper gateway and IP assignment</li>
+</ul>
+<h2 id="verification-1"><a class="header" href="#verification-1">Verification</a></h2>
+<p>After deployment, verify your Spark cluster:</p>
+<ol>
+<li><strong>Check VM Status</strong>: Ensure all VMs are running in Proxmox</li>
+<li><strong>Access Spark Master Web UI</strong>: Navigate to <code>http://&lt;Spark master IP&gt;:8080</code></li>
+<li><strong>Check Worker Registration</strong>: Verify workers appear in the master UI</li>
+<li><strong>Test Spark Shell</strong>: SSH into master and run <code>spark-shell</code></li>
+</ol>
+<p><img src="deploy/stacks/spark/spark_ui.png" alt="Spark UI"></p>
+<h2 id="cleanup-2"><a class="header" href="#cleanup-2">Cleanup</a></h2>
+<p>To remove the Spark cluster:</p>
+<pre><code class="language-bash">cd terraform/deployments/spark
+terraform destroy
+</code></pre>
+<p>To remove the base template:</p>
+<pre><code class="language-bash">cd terraform/templates/spark_base
+terraform destroy
+</code></pre>
+<p><strong>Note</strong>: This will permanently delete all VMs and templates. Ensure you have backups if needed.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="kubernetes-cluster-deployment"><a class="header" href="#kubernetes-cluster-deployment">Kubernetes Cluster Deployment</a></h1>
+<p>This guide walks you through deploying a Kubernetes cluster on Proxmox using Terraform and Ansible. The deployment consists of 4 main steps that must be executed in order.</p>
+<h2 id="prerequisites-15"><a class="header" href="#prerequisites-15">Prerequisites</a></h2>
+<p>Before starting, ensure you have:</p>
+<ul>
+<li>A running Proxmox VE server</li>
+<li>Vault configured with necessary secrets</li>
+<li>Terraform installed</li>
+<li>Ansible installed</li>
+<li>Completed <a href="#hashicorp-vault-infrastructure">Hashicorp Vault setup</a></li>
+</ul>
+<h2 id="set-up-environment-variables-1"><a class="header" href="#set-up-environment-variables-1">Set up environment variables</a></h2>
+<blockquote>
+<p>Note: If you haven’t completed this setup <a href="#setting-environment-variables">Setting Environment Variables</a>, please follow the instructions from this page before proceeding to the next steps.</p>
+</blockquote>
+<h2 id="build-template-k8s_base"><a class="header" href="#build-template-k8s_base">Build Template (k8s_base)</a></h2>
+<p>This step creates a base VM template with Kubernetes pre-installed that will be used to deploy the cluster.</p>
+<pre><code class="language-bash">cd terraform/templates/k8s_base
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
+terraform plan
+terraform apply
+</code></pre>
+<h2 id="update-configvmsyml-1"><a class="header" href="#update-configvmsyml-1">Update config/vms.yml</a></h2>
+<p>Configure your Kubernetes cluster by updating the VM specifications in the configuration file. For example:</p>
+<pre><code class="language-yaml">k8s_cluster:
+  vms:
+    k8s_controller:
+      hosts:
+        - name: "k8s-controller"
+          id: 2010
+          ip: "192.168.1.110"
+          tags: ["vm", "k8s", "k8s_controller"]
+          vars:
+            role: "controller"
+      template_id: 1004
+      node: "pve2"
+
+    k8s_node:
+      hosts:
+        - name: "k8s-node-1"
+          id: 2011
+          ip: "192.168.1.111"
+          tags: ["vm", "k8s", "k8s_node"]
+          vars:
+            role: "node"
+
+        - name: "k8s-node-2"
+          id: 2012
+          ip: "192.168.1.112"
+          tags: ["vm", "k8s", "k8s_node"]
+          vars:
+            role: "node"
+
+        - name: "k8s-node-3"
+          id: 2013
+          ip: "192.168.1.113"
+          tags: ["vm", "k8s", "k8s_node"]
+          vars:
+            role: "node"
+      template_id: 1004
+      node: "pve2"
+</code></pre>
+<p><strong>Configuration options:</strong></p>
+<ul>
+<li><strong>k8s_controller</strong>: Define Kubernetes controller node(s) with their IPs</li>
+<li><strong>k8s_node</strong>: Define Kubernetes worker nodes with their IPs</li>
+<li><strong>Node</strong>: Proxmox node name where the VM will be deployed (e.g., “pve”, “pve2”)</li>
+<li><strong>Template ID</strong>: Must reference the ID of the template</li>
+<li><strong>IP Addresses</strong>: Ensure they don’t conflict with existing VMs</li>
+<li><strong>VM IDs</strong>: Must be unique across your Proxmox environment</li>
+</ul>
+<h2 id="deploy-vm-with-terraform-k8s"><a class="header" href="#deploy-vm-with-terraform-k8s">Deploy VM with Terraform (k8s/)</a></h2>
+<p>Deploy the actual Kubernetes cluster using the configuration from Step 3.</p>
+<pre><code class="language-bash">cd terraform/deployments/k8s
+terraform init -backend-config="bucket=$TF_AWS_BACKEND_BUCKET" -backend-config="region=$TF_AWS_REGION"
+terraform plan
+terraform apply
+</code></pre>
+<p><strong>What this does:</strong></p>
+<ul>
+<li>Creates Kubernetes controller VM(s) from the template</li>
+<li>Creates Kubernetes worker node VM(s) from the template</li>
+<li>Configures network settings and cloud-init</li>
+<li>Runs Ansible playbooks to configure Kubernetes services</li>
+<li>Initializes the controller node with kubeadm</li>
+<li>Joins worker nodes to the cluster</li>
+</ul>
+<p><strong>Deployment includes:</strong></p>
+<ul>
+<li><strong>Kubernetes Controller</strong>: Control plane node with API server, etcd, and scheduler</li>
+<li><strong>Kubernetes Nodes</strong>: Worker nodes that join the cluster</li>
+<li><strong>Ansible Configuration</strong>: Automated setup of Kubernetes services</li>
+<li><strong>Network Configuration</strong>: Proper gateway and IP assignment</li>
+<li><strong>Pod Network</strong>: Flannel CNI with CIDR 10.244.0.0/16</li>
+</ul>
+<h2 id="verification-2"><a class="header" href="#verification-2">Verification</a></h2>
+<p>After deployment, verify your Kubernetes cluster:</p>
+<ol>
+<li><strong>Check VM Status</strong>: Ensure all VMs are running in Proxmox</li>
+<li><strong>SSH into Controller</strong>: Connect to the controller node</li>
+<li><strong>Check Cluster Status</strong>: Run <code>kubectl get nodes</code> to verify all nodes are ready</li>
+<li><strong>Check System Pods</strong>: Run <code>kubectl get pods -n kube-system</code> to verify system components</li>
+<li><strong>Test Deployment</strong>: Deploy a test pod to verify cluster functionality</li>
+</ol>
+<p><strong>Example verification commands:</strong></p>
+<pre><code class="language-bash"># SSH into the controller node
+ssh &lt;username&gt;@&lt;k8s-controller-ip&gt;
+
+# Check node status
+kubectl get nodes
+
+# Check all pods in kube-system namespace
+kubectl get pods -n kube-system
+
+# Get cluster information
+kubectl cluster-info
+
+# Deploy a test nginx pod
+kubectl run nginx-test --image=nginx --restart=Never
+kubectl get pods
+</code></pre>
+<p><strong>Expected output:</strong></p>
+<ul>
+<li>All nodes should show status <code>Ready</code></li>
+<li>System pods (kube-proxy, flannel, etc.) should be running</li>
+<li>Test pod should be created and running</li>
+</ul>
+<h2 id="cleanup-3"><a class="header" href="#cleanup-3">Cleanup</a></h2>
+<p>To remove the Kubernetes cluster:</p>
+<pre><code class="language-bash">cd terraform/deployments/k8s
+terraform destroy
+</code></pre>
+<p>To remove the base template:</p>
+<pre><code class="language-bash">cd terraform/templates/k8s_base
+terraform destroy
+</code></pre>
+<p><strong>Note</strong>: This will permanently delete all VMs and templates. Ensure you have backups if needed. Before destroying, you may want to drain and delete nodes gracefully:</p>
+<pre><code class="language-bash"># On the controller node
+kubectl drain &lt;node-name&gt; --ignore-daemonsets --delete-emptydir-data
+kubectl delete node &lt;node-name&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="deployment-modules-reference"><a class="header" href="#deployment-modules-reference">Deployment Modules Reference</a></h1>
+<p>This page contains all relevant materials and documentation referenced during the development of this homelab setup. The resources are organized by tool for easy navigation.</p>
+<h2 id="proxmox"><a class="header" href="#proxmox">Proxmox</a></h2>
+<ul>
+<li><strong><a href="https://pve.proxmox.com/pve-docs/api-viewer/index.html">Proxmox API Reference</a></strong> - Complete API reference for Proxmox VE management and automation</li>
+</ul>
+<h2 id="packer"><a class="header" href="#packer">Packer</a></h2>
+<ul>
+<li><strong><a href="https://developer.hashicorp.com/packer/docs/commands">Packer Commands</a></strong> - Complete reference for all Packer CLI commands and their usage</li>
+<li><strong><a href="https://developer.hashicorp.com/packer/docs/templates/hcl_templates">HCL Templates</a></strong> - Documentation for HashiCorp Configuration Language templates used in Packer</li>
+<li><strong><a href="https://developer.hashicorp.com/packer/integrations/hashicorp/proxmox">Proxmox Integration</a></strong> - Official Packer plugin for Proxmox VE integration</li>
+</ul>
+<h2 id="terraform"><a class="header" href="#terraform">Terraform</a></h2>
+<ul>
+<li><strong><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs">AWS Provider</a></strong> - Official Terraform provider for Amazon Web Services</li>
+<li><strong><a href="https://registry.terraform.io/providers/bpg/proxmox/latest">Proxmox Provider</a></strong> - Community Terraform provider for Proxmox VE management</li>
+<li><strong><a href="https://registry.terraform.io/providers/hashicorp/vault/latest">Vault Provider</a></strong> - Official Terraform provider for HashiCorp Vault</li>
+</ul>
+<h2 id="vault"><a class="header" href="#vault">Vault</a></h2>
+<ul>
+<li><strong><a href="https://developer.hashicorp.com/vault/docs/concepts/seal">Vault Sealing Concepts</a></strong> - Understanding Vault’s sealing and unsealing process for security</li>
+<li><strong><a href="https://developer.hashicorp.com/vault/tutorials/get-started">Vault Getting Started</a></strong> - Comprehensive tutorial for Vault setup and basic operations</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>
