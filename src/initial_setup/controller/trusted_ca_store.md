@@ -4,82 +4,107 @@ This guide explains how to configure the controller node to trust Proxmox's self
 
 ## Overview
 
-Proxmox VE uses self-signed certificates by default, which causes TLS verification errors when Terraform attempts to connect to the Proxmox API. This configuration adds the Proxmox certificate to the system's trusted CA store, enabling secure communication.
+By default, Proxmox VE issues self-signed certificates for its API (port `8006`). While functional, these certificates are untrusted by standard TLS libraries, causing Terraform providers to reject connections unless security is explicitly bypassed.
+
+This guide outlines the professional standard for resolving these errors: **importing the Proxmox public key into your controller's local Trust Store**. This ensures secure, encrypted communication without compromising integrity by disabling SSL verification.
 
 ## Prerequisites
 
-- Controller node running Ubuntu Server
-- Network access to your Proxmox server
-- `openssl` package installed (usually pre-installed on Ubuntu)
-- Root or sudo privileges
+- **Controller Node**: Ubuntu/Debian-based Linux or macOS.
+- **Network Connectivity**: Ability to reach the Proxmox API via port `8006`
+- **Privileges**: `sudo` access on Linux or Administrator privileges on macOS.
+- **Dependencies**: `openssl` (for certificate extraction) and `curl` (for verification).
 
 ## Configuration Steps
 
-### Step 1: Set Proxmox Server IP
+### Step 1: Extract the Public Certificate
 
-First, export your Proxmox server IP address as an environment variable:
+Rather than manually exporting files from the Proxmox GUI, use `openssl` to pull the public certificate directly from the API endpoint.
 
+Define your server address:
 ```bash
-export PROXMOX_IP="<PROXMOX_IP>"
+export PROXMOX_IP="192.168.1.100" # Replace with your node's IP
 ```
 
-**Replace `<PROXMOX_IP>` with your actual Proxmox server IP address.**
-
-Example:
+Fetch the PEM-encoded certificate:
 ```bash
-export PROXMOX_IP="192.168.1.100"
+echo | openssl s_client \
+  -connect ${PROXMOX_IP}:8006 \
+  -showcerts 2>/dev/null \
+  | openssl x509 -outform PEM > proxmox-ca.crt
 ```
 
-### Step 2: Download the Proxmox Certificate
+### Step 2: Update the Local Trust Store
+The process for making the system recognize this certificate varies by opering system.
 
-Download the Proxmox server's certificate to your controller node:
+#### For Linux (Ubuntu/Debian)
 
+1. Move the file to the local CA directory
 ```bash
-echo | \
-  openssl s_client -connect ${PROXMOX_IP}:8006 -showcerts 2>/dev/null | \
-  openssl x509 -outform PEM > proxmox.crt
+sudo cp proxmox-ca.crt /usr/local/share/ca-certificates/proxmox-ca.crt
 ```
-
-### Step 3: Add Certificate to System CA Store
-
-Copy the certificate to the system's trusted CA certificates directory:
-
-```bash
-sudo cp proxmox.crt /usr/local/share/ca-certificates/proxmox.crt
-```
-
-### Step 4: Update Trusted CA Certificates
-
-Update the system's trusted CA certificates:
-
+2. Rebuild the trust bundle
 ```bash
 sudo update-ca-certificates
 ```
+*Note: Upon success, the output should indicate 1 added.*
 
-You should see output similar to:
-```
-Updating certificates in /etc/ssl/certs...
-1 added, 0 removed; done.
-Running hooks in /etc/ca-certificates/update.d...
+#### For macOS
+
+macOS manages trust via the **System Keychain**. Add the cert to macOS trust store:
+
+1. Open Keychain Access
+   - Go to **Applications** → **Utilities** → **Keychain Access**
+
+2. Add the certificate to System keychain
+   - Select **System** keychain from the left sidebar
+   - Drag `proxmox-ca.crt` into the System keychain, or use **File** → **Import Items** and select the certificate file
+
+3. Configure trust settings
+   - Double-click the certificate in the System keychain
+   - Expand the **Trust** section
+   - Set **"When using this certificate"** → **Always Trust**
+   - Close the certificate window and enter your password when prompted
+
+**Alternative: Command Line Method**
+
+If you prefer using the command line, you can add the certificate directly:
+```bash
+sudo security add-trusted-cert \
+  -d \
+  -r trustRoot \
+  -k /Library/Keychains/System.keychain \
+  proxmox-ca.crt
 ```
 
-### Step 5: Verify Certificate Installation
+After adding via command line, you may still need to configure trust settings using the GUI method above. 
+
+
+### Step 3: Verify Certificate Installation
 
 Verify the certificate was successfully added:
 
+**For Linux/Ubuntu:**
 ```bash
-ls -la /usr/local/share/ca-certificates/proxmox.crt
+ls -la /usr/local/share/ca-certificates/proxmox-ca.crt
 ```
 
 The file should exist and be readable.
 
-### Step 6: Clean Up
+**For macOS:**
+```bash
+security find-certificate -c "pve" /Library/Keychains/System.keychain
+```
+
+This should display certificate information if it was added successfully.
+
+
+### Step 4: Clean Up
 
 Remove the temporary certificate file:
 
 ```bash
-rm proxmox.crt
-
+rm proxmox-ca.crt
 ```
 
 ## Verification
@@ -92,9 +117,9 @@ curl -I https://${PROXMOX_IP}:8006/api2/json/version
 
 This should return a successful HTTP response without certificate errors.
 
-## Alternative Configuration (Less Secure)
+## Terraform Integration
 
-If you prefer not to trust the certificate system-wide, you can configure Terraform to skip certificate verification by setting `insecure = true` in your Proxmox provider configuration:
+With the certificate trusted at the OS level, your provider block remains clean and secure. The `insecure` flag should now be set to `false` (or removed entirely).
 
 
 ```hcl
@@ -103,7 +128,7 @@ provider "proxmox" {
   
   username  = "your username"
   password  = var.user_terraform_password
-  insecure  = true
+  insecure  = false
 }
 
 ```
@@ -112,7 +137,6 @@ provider "proxmox" {
 
 
 ## Security Considerations
-
 - The certificate is added to the system-wide trusted CA store, affecting all applications on the controller node
 - This is the recommended approach for production environments
 - Consider certificate rotation if your Proxmox server's certificate changes
